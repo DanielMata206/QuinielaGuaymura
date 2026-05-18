@@ -47,6 +47,17 @@
 </head>
 <body>
 
+    @if (TempData["Mensaje"] != null)
+    {
+        <div class="alert alert-@TempData["TipoMensaje"] alert-dismissible fade show text-center fw-bold"
+             role="alert"
+             style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+                    z-index: 9999; min-width: 350px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+            @TempData["Mensaje"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark navbar-unificada box-shadow position-relative">
             <div class="container">
@@ -55,12 +66,35 @@
                     <div class="position-absolute end-0 top-0 mt-2 me-4" style="z-index: 1050;">
                         <div class="navbar-collapse collapse flex-grow-0">
                             <ul class="navbar-nav gap-2">
-                                <li class="nav-item">
-                                    <a class="nav-link text-white fuente-menu boton-login px-3" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white fuente-menu boton-login px-3" asp-area="" asp-controller="Account" asp-action="Register">Registrarse</a>
-                                </li>
+                                @if (Context.Session.GetString("UsuarioActivo") != null)
+                                {
+                                    <li class="nav-item d-flex align-items-center">
+                                        <span class="text-white fw-bold fuente-menu me-2">
+                                            @Context.Session.GetString("UsuarioActivo")
+                                        </span>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-white fuente-menu boton-login px-3"
+                                           asp-controller="Account" asp-action="Logout">
+                                            Cerrar Sesión
+                                        </a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-white fuente-menu boton-login px-3"
+                                           href="#" data-bs-toggle="modal" data-bs-target="#modalLogin">
+                                            Iniciar Sesión
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-white fuente-menu boton-login px-3"
+                                           href="#" data-bs-toggle="modal" data-bs-target="#modalRegistro">
+                                            Registrarse
+                                        </a>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </div>
@@ -123,5 +157,112 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- ===== MODALES DE AUTENTICACIÓN ===== -->
+    <!-- Modal Iniciar Sesión -->
+    <div class="modal fade" id="modalLogin" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+            <div class="modal-content border-0" style="border-radius: 15px; overflow: hidden;">
+
+                <div class="modal-header text-white border-0 pb-1" style="background-color: #781717;">
+                    <h5 class="modal-title fuente-titulo w-100 text-center" style="font-size: 1.5rem; letter-spacing: 1px;">
+                        Iniciar Sesión
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body px-4 py-4">
+                    <form asp-controller="Account" asp-action="Login" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" style="color: #781717;">Usuario</label>
+                            <input type="text" name="NombreUsuario" class="form-control"
+                                   placeholder="Ingresa tu usuario" required
+                                   style="border: 2px solid #ddd; border-radius: 8px; padding: 10px 14px;">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold" style="color: #781717;">Contraseña</label>
+                            <input type="password" name="Contrasena" class="form-control"
+                                   placeholder="Ingresa tu contraseña" required
+                                   style="border: 2px solid #ddd; border-radius: 8px; padding: 10px 14px;">
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn text-white fw-bold py-2"
+                                    style="background-color: #781717; border-radius: 8px; font-size: 1.05rem;">
+                                Entrar
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <small class="text-muted">
+                            ¿No tienes cuenta?
+                            <a href="#" class="fw-bold"
+                               style="color: #781717; text-decoration: none;"
+                               data-bs-dismiss="modal"
+                               data-bs-toggle="modal"
+                               data-bs-target="#modalRegistro">
+                                Regístrate aquí
+                            </a>
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Registrarse -->
+    <div class="modal fade" id="modalRegistro" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+            <div class="modal-content border-0" style="border-radius: 15px; overflow: hidden;">
+
+                <div class="modal-header text-white border-0 pb-1" style="background-color: #781717;">
+                    <h5 class="modal-title fuente-titulo w-100 text-center" style="font-size: 1.5rem; letter-spacing: 1px;">
+                        Registrarse
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body px-4 py-4">
+                    <form asp-controller="Account" asp-action="Register" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" style="color: #781717;">Usuario</label>
+                            <input type="text" name="NombreUsuario" class="form-control"
+                                   placeholder="Elige un nombre de usuario" required
+                                   style="border: 2px solid #ddd; border-radius: 8px; padding: 10px 14px;">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold" style="color: #781717;">Contraseña</label>
+                            <input type="password" name="Contrasena" class="form-control"
+                                   placeholder="Elige una contraseña" required
+                                   style="border: 2px solid #ddd; border-radius: 8px; padding: 10px 14px;">
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn text-white fw-bold py-2"
+                                    style="background-color: #781717; border-radius: 8px; font-size: 1.05rem;">
+                                Crear Cuenta
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <small class="text-muted">
+                            ¿Ya tienes cuenta?
+                            <a href="#" class="fw-bold"
+                               style="color: #781717; text-decoration: none;"
+                               data-bs-dismiss="modal"
+                               data-bs-toggle="modal"
+                               data-bs-target="#modalLogin">
+                                Inicia sesión aquí
+                            </a>
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </body>
 </html>
