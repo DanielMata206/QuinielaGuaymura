@@ -1,8 +1,297 @@
-﻿@{
+﻿@model IEnumerable<QuinielaGuaymura.Models.RankingViewModel>
+
+@{
     ViewData["Title"] = "Home Page";
+
+    // Separamos dinámicamente los 3 primeros lugares para el Podio
+    var primerLugar = Model?.FirstOrDefault(x => x.Posicion == 1);
+    var segundoLugar = Model?.FirstOrDefault(x => x.Posicion == 2);
+    var tercerLugar = Model?.FirstOrDefault(x => x.Posicion == 3);
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    /* 1. Animación de Pop-Up al ir bajando la página (Scroll-driven animations) */
+    @@keyframes popupEfecto {
+        from {
+            opacity: 0;
+            transform: scale(0.85) translateY(40px);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    .tarjeta-movimiento {
+        animation: popupEfecto linear both;
+        animation-timeline: view();
+        animation-range: entry 5% cover 30%;
+        transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    }
+
+    /* 2. Animación Continua para la tarjeta de Datos Curiosos */
+    @@keyframes pulsoSutil {
+        0% {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transform: translateY(0);
+        }
+
+        50% {
+            box-shadow: 0 10px 25px rgba(120, 23, 23, 0.15);
+            transform: translateY(-4px);
+            border-left-color: #ffc107 !important;
+        }
+
+        100% {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transform: translateY(0);
+        }
+    }
+
+    .animacion-datos {
+        animation: pulsoSutil 4s infinite ease-in-out;
+        transition: border-left 0.5s ease;
+    }
+
+    /* 3. Animación de entrada para las columnas del podio */
+    @@keyframes aparecerPodio {
+        from {
+            transform: translateY(50px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .columna-podio {
+        animation: aparecerPodio 0.8s ease-out both;
+    }
+
+    .oro {
+        animation-delay: 0.1s;
+    }
+
+    .plata {
+        animation-delay: 0.3s;
+    }
+
+    .bronce {
+        animation-delay: 0.5s;
+    }
+</style>
+
+<div class="container mt-5">
+
+    <div class="row">
+        <div class="col-lg-8 col-md-7 mb-4">
+            <h2 class="fuente-titulo mb-4" style="color: #781717; font-size: 2.2rem; border-bottom: 2px solid #781717; padding-bottom: 10px;">
+                La Historia de la Copa Mundial
+            </h2>
+
+            <p class="lead text-muted mb-4">
+                La Copa Mundial de la FIFA es el torneo de fútbol masculino internacional más importante del mundo, un evento que paraliza al planeta cada cuatro años.
+            </p>
+
+            <p class="fuente-lectura" style="font-size: 1.1rem; line-height: 1.8; color: #333;">
+                Todo comenzó en <strong>1930</strong>, cuando la FIFA organizó el primer torneo en Uruguay. En esa histórica edición, solo participaron 13 selecciones invitadas y el país anfitrión se coronó como el primer campeón del mundo tras vencer a Argentina.
+            </p>
+
+            <p class="fuente-lectura" style="font-size: 1.1rem; line-height: 1.8; color: #333;">
+                A lo largo de las décadas, el torneo ha crecido exponencialmente, dejando momentos inolvidables como el "Maracanazo" en 1950, el auge de Pelé y el dominio de Brasil, la era de Diego Maradona en 1986, hasta llegar a la coronación de Lionel Messi en Catar 2022.
+            </p>
+
+            <p class="fuente-lectura" style="font-size: 1.1rem; line-height: 1.8; color: #333;">
+                Ahora, con la mirada puesta en el <strong>Mundial 2026</strong>, el torneo se expande a un formato inédito de 48 equipos, prometiendo ser la fiesta de fútbol más grande jamás vista en la historia de Norteamérica.
+            </p>
+        </div>
+
+        <div class="col-lg-4 col-md-5">
+            <div class="card tarjeta-login animacion-datos p-4 bg-light border-0" style="border-left: 5px solid #781717 !important;">
+                <h4 class="fuente-titulo mb-3" style="color: #781717;">Datos Curiosos</h4>
+                <hr class="mt-0">
+
+                <ul class="list-unstyled">
+                    <li class="mb-3">
+                        <strong>🏆 Más Campeón:</strong> Brasil es el máximo ganador del torneo con 5 estrellas en su escudo.
+                    </li>
+                    <li class="mb-3">
+                        <strong>⚽ Máximo Goleador:</strong> El alemán Miroslav Klose ostenta el récord con 16 goles anotados.
+                    </li>
+                    <li class="mb-3">
+                        <strong>📅 Próxima Cita:</strong> El Mundial 2026 será organizado en conjunto por tres países: Estados Unidos, México y Canadá.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5 px-0">
+        <div class="text-center mb-5">
+            <h2 class="fuente-titulo" style="color: #781717; font-size: 2.8rem; text-transform: uppercase;">
+                Grandes Campeones y Mundiales Legendarios
+            </h2>
+            <p class="lead text-muted">Un repaso por el juego bonito, las eras doradas y las mayores sorpresas en la historia del fútbol.</p>
+            <hr style="width: 150px; border-top: 3px solid #781717; margin: 0 auto;">
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+
+                <div class="tarjeta-movimiento card tarjeta-login p-4 mb-5 border-0 bg-light shadow-sm">
+                    <h3 class="fuente-titulo" style="color: #781717;">ARGENTINA 2022 (La Gloria Eterna)</h3>
+                    <span class="badge align-self-start mb-3 px-3 py-2 text-dark" style="background-color: #FFD700 !important; font-weight: bold;">
+                        El Mejor de la Historia Moderna
+                    </span>
+                    <div class="text-center my-3 bg-dark rounded-3 overflow-hidden" style="max-height: 400px;">
+                        <img src="~/img/Argentina.jpg" alt="Argentina Campeón 2022" class="img-fluid w-100" style="object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1671377484481-fc1733dfba15?q=80&w=1200'" />
+                    </div>
+                    <p class="fuente-lectura mt-3" style="font-size: 1.1rem; line-height: 1.8;">
+                        Considerada unánimemente como la mejor final de todos los tiempos. Tras un torneo lleno de sorpresas y drama puro, la Argentina de <strong>Lionel Messi</strong> se enfrentó a la Francia de Kylian Mbappé en Catar. Un infartante 3-3 tras la prórroga llevó el juego a una tanda de penales definitiva, donde el 'Dibu' Martínez se vistió de héroe. Este mundial cerró con broche de oro el debate del fútbol contemporáneo, coronando a Messi con el único trofeo que le hacía falta para sellar su lugar en el olimpo eterno del deporte.
+                    </p>
+                </div>
+
+                <div class="tarjeta-movimiento card tarjeta-login p-4 mb-5 border-0 bg-light shadow-sm">
+                    <h3 class="fuente-titulo" style="color: #781717;">BRASIL 2002 (El Último Baño de Oro del Pentacampeón)</h3>
+                    <span class="badge align-self-start mb-3 px-3 py-2 text-dark" style="background-color: #FFD700 !important; font-weight: bold;">
+                        El Último Mundial Ganado por Brasil
+                    </span>
+                    <div class="text-center my-3 bg-dark rounded-3 overflow-hidden" style="max-height: 400px;">
+                        <img src="~/img/brasil.jpg" alt="Brasil Campeón 2002" class="img-fluid w-100" style="object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1518063319789-7217e6706b04?q=80&w=1200'" />
+                    </div>
+                    <p class="fuente-lectura mt-3" style="font-size: 1.1rem; line-height: 1.8;">
+                        El primer mundial organizado en territorio asiático fue el escenario de la redención absoluta de <strong>Ronaldo Nazário</strong>. Tras el drama médico sufrido en la final de 1998, "El Fenómeno" regresó con un corte de cabello icónico para guiar a un Brasil arrollador. Junto a Rivaldo y un joven Ronaldinho, formaron una ofensiva imparable que ganó los 7 partidos del torneo. Ronaldo anotó un doblete en la gran final ante la Alemania de Oliver Kahn, dándole a Brasil su quinta estrella (el Pentacampeonato).
+                    </p>
+                </div>
+
+                <div class="tarjeta-movimiento card tarjeta-login p-4 mb-5 border-0 bg-light shadow-sm">
+                    <h3 class="fuente-titulo" style="color: #781717;">ESPAÑA 2010 (La Era del Tiquitaca)</h3>
+                    <span class="badge bg-danger align-self-start mb-3 px-3 py-2">El Mejor Estilo de Juego Moderno</span>
+                    <div class="text-center my-3 bg-dark rounded-3 overflow-hidden" style="max-height: 400px;">
+                        <img src="~/img/espana.jpg" alt="España Campeón 2010" class="img-fluid w-100" style="object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=1200'" />
+                    </div>
+                    <p class="fuente-lectura mt-3" style="font-size: 1.1rem; line-height: 1.8;">
+                        España maravilló al mundo entero imponiendo una dictadura del pase y la posesión de balón conocida como el <strong>"Tiquitaca"</strong>. Con la base del FC Barcelona comandada por Xavi Hernández y Andrés Iniesta, la 'Roja' superó un tropiezo inicial para meterse a la gran final en Johannesburgo. Un agónico gol de Iniesta en el minuto 116 del tiempo extra contra Países Bajos rompió la historia y le dio a España su primera y gloriosa estrella mundialista.
+                    </p>
+                </div>
+
+                <div class="tarjeta-movimiento card tarjeta-login p-4 mb-5 border-0 bg-light shadow-sm">
+                    <h3 class="fuente-titulo" style="color: #781717;">ALEMANIA 2014 (La Consagración del Fútbol Total)</h3>
+                    <span class="badge bg-danger align-self-start mb-3 px-3 py-2">La Goleada más Polémica e Impactante</span>
+                    <div class="text-center my-3 bg-dark rounded-3 overflow-hidden" style="max-height: 400px;">
+                        <img src="~/img/Alemania.jpg" alt="Alemania Campeón 2014" class="img-fluid w-100" style="object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1551958219-acbc608c6d77?q=80&w=1200'" />
+                    </div>
+                    <p class="fuente-lectura mt-3" style="font-size: 1.1rem; line-height: 1.8;">
+                        La consagración de <strong>Alemania</strong> en suelo sudamericano fue la recompensa a un proceso impecable de más de una década. Dirigidos por Joachim Löw, la 'Mannschaft' desplegó un fútbol moderno, ultra efectivo y asociativo, comandado por figuras como Toni Kroos, Thomas Müller y Philipp Lahm. El clímax llegó en la prórroga, cuando un agónico gol de <strong>Mario Götze</strong> en el minuto 113 selló el 1-0 definitivo contra Argentina, otorgándole a Alemania su cuarta estrella mundialista.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container mt-5 pt-4 px-0 border-top" style="border-color: rgba(120, 23, 23, 0.2) !important;">
+        <div class="text-center mb-5">
+            <h2 class="fuente-titulo" style="color: #781717; font-size: 2.8rem; text-transform: uppercase;">
+                🏆 LÍDERES DE LA QUINIELA GUAYMURA 🏆
+            </h2>
+            <p class="lead text-muted">A continuación se muestran los participantes que van dominando los pronósticos en tiempo real.</p>
+            <hr style="width: 150px; border-top: 3px solid #781717; margin: 0 auto;">
+        </div>
+
+        <div class="row align-items-end justify-content-center mb-5 text-center px-3">
+
+            <div class="col-md-3 col-4 columna-podio plata mb-3">
+                <div class="card border-0 shadow-sm p-3 bg-white" style="border-top: 5px solid #C0C0C0 !important; border-radius: 12px;">
+                    <span style="font-size: 2.5rem;">🥈</span>
+                    <h4 class="fuente-titulo mt-2 mb-1" style="color: #333; font-size: 1.25rem;">@(segundoLugar?.NombreUsuario ?? "Vacante")</h4>
+                    <p class="badge bg-secondary px-3 py-2 mb-2" style="font-size: 1rem;">@(segundoLugar?.PuntajeTotal ?? 0) Pts</p>
+                    <small class="text-muted d-block">2° Lugar</small>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-4 columna-podio oro mb-3">
+                <div class="card border-0 shadow-lg p-4 bg-white" style="border-top: 6px solid #FFD700 !important; transform: scale(1.05); border-radius: 15px; position: relative;">
+                    <div class="position-absolute top-0 start-50 translate-middle" style="margin-top: -10px;">
+                        <span style="font-size: 3.5rem; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.1));">👑</span>
+                    </div>
+                    <h3 class="fuente-titulo mt-4 mb-1" style="color: #781717; font-size: 1.6rem;">@(primerLugar?.NombreUsuario ?? "Vacante")</h3>
+                    <p class="badge px-4 py-2 mb-2 text-dark" style="background-color: #FFD700; font-size: 1.1rem; font-weight: bold;">@(primerLugar?.PuntajeTotal ?? 0) Pts</p>
+                    <small class="text-muted d-block" style="font-weight: bold; color: #781717 !important;">Líder Absoluto</small>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-4 columna-podio bronce mb-3">
+                <div class="card border-0 shadow-sm p-3 bg-white" style="border-top: 5px solid #CD7F32 !important; border-radius: 12px;">
+                    <span style="font-size: 2.5rem;">🥉</span>
+                    <h4 class="fuente-titulo mt-2 mb-1" style="color: #333; font-size: 1.25rem;">@(tercerLugar?.NombreUsuario ?? "Vacante")</h4>
+                    <p class="badge bg-danger px-3 py-2 mb-2" style="font-size: 1rem;">@(tercerLugar?.PuntajeTotal ?? 0) Pts</p>
+                    <small class="text-muted d-block">3° Lugar</small>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card p-4 border-0 bg-light shadow-sm" style="border-radius: 12px;">
+                    <h3 class="fuente-titulo mb-4" style="color: #781717; border-bottom: 2px solid #781717; padding-bottom: 8px; font-size: 1.5rem;">
+                        Tabla General de Posiciones
+                    </h3>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle bg-white rounded shadow-sm overflow-hidden">
+                            <thead style="background-color: #781717; color: white;">
+                                <tr>
+                                    <th class="text-center" style="width: 100px;">Posición</th>
+                                    <th>Participante</th>
+                                    <th class="text-center">Partidos Acertados</th>
+                                    <th class="text-center" style="width: 150px;">Puntaje Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Any())
+                                {
+                                    @foreach (var usuario in Model)
+                                    {
+                                        string claseFila = usuario.Posicion == 1 ? "table-warning" : "";
+                                        string estiloFila = usuario.Posicion <= 3 ? "font-weight: bold;" : "";
+
+                                        <tr class="@claseFila" style="@estiloFila">
+                                            <td class="text-center">@usuario.Posicion</td>
+                                            <td>
+                                                @(usuario.Posicion == 1 ? "⭐ " : "")@usuario.NombreUsuario
+                                            </td>
+                                            <td class="text-center">@usuario.PartidosAcertados</td>
+                                            <td class="text-center">
+                                                @if (usuario.Posicion == 1)
+                                                {
+                                                    <span class="badge text-dark" style="background-color: #FFD700; font-size: 0.95rem;">@usuario.PuntajeTotal Pts</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-dark opacity-75">@usuario.PuntajeTotal Pts</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted py-4">No hay datos disponibles en el ranking actualmente.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

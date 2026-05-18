@@ -1,0 +1,132 @@
+﻿@model IEnumerable<QuinielaGuaymura.Models.RankingViewModel>
+
+@{
+    ViewData["Title"] = "Ranking General";
+
+    // Separamos los 3 primeros para el podio dinámico
+    var primerLugar = Model.FirstOrDefault(x => x.Posicion == 1);
+    var segundoLugar = Model.FirstOrDefault(x => x.Posicion == 2);
+    var tercerLugar = Model.FirstOrDefault(x => x.Posicion == 3);
+}
+
+<style>
+    @@keyframes aparecerPodio {
+        from {
+            transform: translateY(50px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .columna-podio {
+        animation: aparecerPodio 0.6s ease-out both;
+    }
+
+    .oro {
+        animation-delay: 0.2s;
+    }
+
+    .plata {
+        animation-delay: 0.4s;
+    }
+
+    .bronce {
+        animation-delay: 0.6s;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h2 class="fuente-titulo" style="color: #781717; font-size: 2.8rem; text-transform: uppercase;">
+            🏆 LÍDERES DE LA QUINIELA 🏆
+        </h2>
+        <p class="lead text-muted">Revisa quién va dominando los pronósticos y liderando la tabla de posiciones.</p>
+        <hr style="width: 150px; border-top: 3px solid #781717; margin: 0 auto;">
+    </div>
+
+    <div class="row align-items-end justify-content-center mb-5 text-center px-3">
+
+        <div class="col-md-3 col-4 columna-podio plata mb-3">
+            <div class="card border-0 shadow-sm p-3 bg-light" style="border-top: 5px solid #C0C0C0 !important;">
+                <span style="font-size: 2.5rem;">🥈</span>
+                <h4 class="fuente-titulo mt-2 mb-1" style="color: #333;">@(segundoLugar?.NombreUsuario ?? "Vacante")</h4>
+                <p class="badge bg-secondary px-3 py-2 mb-2" style="font-size: 1rem;">@(segundoLugar?.PuntajeTotal ?? 0) Pts</p>
+                <small class="text-muted d-block">2° Lugar</small>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-4 columna-podio oro mb-3">
+            <div class="card border-0 shadow-lg p-4 bg-white" style="border-top: 6px solid #FFD700 !important; transform: scale(1.05);">
+                <div class="position-absolute top-0 start-50 translate-middle">
+                    <span style="font-size: 3.5rem; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.1));">👑</span>
+                </div>
+                <h3 class="fuente-titulo mt-4 mb-1" style="color: #781717; font-size: 1.8rem;">@(primerLugar?.NombreUsuario ?? "Vacante")</h3>
+                <p class="badge px-4 py-2 mb-2 text-dark" style="background-color: #FFD700; font-size: 1.2rem; font-weight: bold;">@(primerLugar?.PuntajeTotal ?? 0) Pts</p>
+                <small class="text-muted d-block">Líder Absoluto</small>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-4 columna-podio bronce mb-3">
+            <div class="card border-0 shadow-sm p-3 bg-light" style="border-top: 5px solid #CD7F32 !important;">
+                <span style="font-size: 2.5rem;">🥉</span>
+                <h4 class="fuente-titulo mt-2 mb-1" style="color: #333;">@(tercerLugar?.NombreUsuario ?? "Vacante")</h4>
+                <p class="badge bg-danger px-3 py-2 mb-2" style="font-size: 1rem;">@(tercerLugar?.PuntajeTotal ?? 0) Pts</p>
+                <small class="text-muted d-block">3° Lugar</small>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card tarjeta-login p-4 border-0 bg-light shadow-sm">
+                <h3 class="fuente-titulo mb-4" style="color: #781717; border-bottom: 2px solid #781717; padding-bottom: 8px;">
+                    Tabla de Posiciones
+                </h3>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle bg-white rounded shadow-sm">
+                        <thead style="background-color: #781717; color: white;">
+                            <tr>
+                                <th class="text-center" style="width: 100px;">Posición</th>
+                                <th>Participante</th>
+                                <th class="text-center">Partidos Acertados</th>
+                                <th class="text-center" style="width: 150px;">Puntaje Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var usuario in Model)
+                            {
+                                // Si es el primer lugar, pintamos la fila dorada brillante
+                                string claseFila = usuario.Posicion == 1 ? "table-warning" : "";
+                                string estiloFila = usuario.Posicion <= 3 ? "font-weight: bold;" : "";
+
+                                <tr class="@claseFila" style="@estiloFila">
+                                    <td class="text-center">@usuario.Posicion</td>
+                                    <td>
+                                        @(usuario.Posicion == 1 ? "⭐ " : "")@usuario.NombreUsuario
+                                    </td>
+                                    <td class="text-center">@usuario.PartidosAcertados</td>
+                                    <td class="text-center">
+                                        @if (usuario.Posicion == 1)
+                                        {
+                                            <span class="badge text-dark" style="background-color: #FFD700; font-size: 0.95rem;">@usuario.PuntajeTotal Pts</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@usuario.PuntajeTotal Pts</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -20,3 +20,142 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* 1. Estilo para títulos grandes o el nombre de la Quiniela (Estilo Deportivo/Impactante) */
+.fuente-titulo {
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    letter-spacing: 1px; /* Separa un poquito las letras */
+}
+
+/* 2. Estilo para los botones del menú (Limpio y moderno) */
+.fuente-menu {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600; /* Un toque de grosor sin llegar a ser muy pesada */
+    font-size: 1.1rem; /* Un pelín más grande que el tamaño estándar */
+}
+
+/* 3. Estilo para textos de lectura o párrafos comunes */
+.fuente-lectura {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: italic;
+}
+
+.subtitulo-quiniela {
+    font-size: 1.2rem;
+    font-weight: bold; /* 🔤 Esto lo hace negrita */
+}
+
+/* ==========================================================================
+   2. DISEÑO DE LA BARRA DE NAVEGACIÓN (HEADER)
+   ========================================================================== */
+.fondo-quiniela {
+    background-color: #781717 !important; /* Rojo oscuro */
+}
+
+.nav-link:hover {
+    color: #ffffff !important; /* Efecto: cuando pasas el mouse por un enlace, cambia a amarillo */
+    transition: 0.3s; /* Hace que el cambio de color sea suave */
+}
+
+
+/* ==========================================================================
+   3. PANTALLAS DE AUTENTICACIÓN (LOGIN / REGISTRO)
+   ========================================================================== */
+/* Aquí meterás los estilos para tus tarjetas de login, bordes de los formularios, etc. */
+.tarjeta-login {
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+.boton-login {
+    background-color: #781717 !important; /* Color de fondo (ej: amarillo deportivo) */
+    color: white !important; /* Color del texto (negro para que resalte) */
+    padding: 8px 16px !important; /* Espacio interno para darle tamaño de botón */
+    border-radius: 8px !important; /* Bordes redondeados */
+    margin-right: 10px; /* Separación con el botón de Registrarse */
+}
+
+/* Efecto opcional: Cambiar el tono cuando pasas el mouse por encima */
+    .boton-login:hover {
+        background-color: #e52121 !important;
+        color: #85818183 !important;
+        color: white !important;
+    }
+
+.contenedorPrincipal1-color {
+    background-color: #781717; /* El color de fondo que quieras */
+    color: white; /* El color de la letra */
+    padding: 30px; /* Espacio interno para que no respire justo en el borde */
+    border-radius: 15px; /* Bordes redondeados para que se vea moderno */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Una ligera sombra para darle profundidad */
+    max-width: 6000px auto; /* Para que no se estire en pantallas gigantes */
+    margin: 0px auto; /* Centra el contenedor en la pantalla */
+}
+
+.navbar-unificada {
+    background-image: url('/img/mundial2026.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    /* Dejamos un espacio base limpio aquí */
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+    border-bottom: none !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Efecto de transición suave para todas las tarjetas */
+.tarjeta-movimiento {
+    transition: transform 0.4s ease, box-shadow 0.4s ease !important;
+    cursor: pointer;
+}
+
+    /* Lo que pasa EXACTAMENTE cuando pasas el mouse por encima (Hover) */
+    .tarjeta-movimiento:hover {
+        transform: translateY(-10px) !important; /* Eleva la tarjeta 10 píxeles hacia arriba */
+        box-shadow: 0 15px 35px rgba(120, 23, 23, 0.15) !important; /* Le da una sombra rojiza y profunda */
+    }
+
+        /* Efecto extra: La imagen interna se hace un poquito más grande al pasar el mouse */
+        .tarjeta-movimiento:hover img {
+            transform: scale(1.03);
+            transition: transform 0.4s ease;
+        }
+
+
+/* Estilo base para los enlaces del menú central */
+.enlace-menu-central {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+    /* Crear la línea oculta debajo del texto */
+    .enlace-menu-central::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0); /* Empieza midiendo cero */
+        height: 3px;
+        bottom: -2px;
+        left: 0;
+        background-color: #FFD700; /* Color amarillo brillante para combinar */
+        transform-origin: bottom right;
+        transition: transform 0.3s ease-out; /* Animación de estirado */
+    }
+
+    /* Cuando pasas el mouse, la línea se expande */
+    .enlace-menu-central:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+
+    /* Color al pasar el mouse por encima */
+    .enlace-menu-central:hover {
+        color: #FFD700 !important;
+    }

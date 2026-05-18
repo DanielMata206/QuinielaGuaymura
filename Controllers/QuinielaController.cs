@@ -1,31 +1,28 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
+ï»¿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient; // Necesario para conectarse a SQL Server
 using QuinielaGuaymura.Models;
 using System.Data;
 
 namespace QuinielaGuaymura.Controllers
 {
-    public class HomeController : Controller
+    public class QuinielaController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _configuration;
 
-        // Inyectamos tanto el Logger original como la Configuración del appsettings.json
-        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
+        // Inyectamos la configuraciÃ³n para leer el appsettings.json
+        public QuinielaController(IConfiguration configuration)
         {
-            _logger = logger;
             _configuration = configuration;
         }
 
-        public IActionResult Index()
+        public IActionResult Ranking()
         {
             List<RankingViewModel> listaRanking = new List<RankingViewModel>();
-            
-            // 1. Obtenemos la cadena de conexión de tu servidor de Somee
+
+            // 1. Obtenemos la cadena de conexiÃ³n de Somee
             string connectionString = _configuration.GetConnectionString("ConexionQuiniela");
 
-            // 2. Consulta SQL con tus tablas reales para calcular posiciones y aciertos
+            // 2. Consulta SQL Corregida (Usando tus tablas reales USUARIOS y PREDICCIONES)
             string query = @"
                 SELECT 
                     u.Usuario, 
@@ -51,7 +48,7 @@ namespace QuinielaGuaymura.Controllers
                                 listaRanking.Add(new RankingViewModel
                                 {
                                     Posicion = puesto++,
-                                    // El Trim() limpia los espacios fantasmas que genera el tipo CHAR(100)
+                                    // Trim() limpia los espacios fantasmas del CHAR(100)
                                     NombreUsuario = reader["Usuario"].ToString().Trim(),
                                     PartidosAcertados = Convert.ToInt32(reader["PartidosAcertados"]),
                                     PuntajeTotal = Convert.ToInt32(reader["puntos_totales"])
@@ -63,24 +60,12 @@ namespace QuinielaGuaymura.Controllers
             }
             catch (Exception ex)
             {
-                // Registramos el error en la consola interna por si necesitas revisarlo
-                _logger.LogError("Error al conectar con la base de datos de Somee: " + ex.Message);
-                ViewBag.ErrorBD = "Ocurrió un inconveniente al cargar el ranking.";
+                // Manejo de error sutil para la vista si la base de datos de Somee falla
+                ViewBag.ErrorBD = "OcurriÃ³ un inconveniente al cargar el ranking.";
             }
 
-            // 3. Pasamos la lista cargada de la BD a tu vista Index.cshtml
+            // 3. Le pasamos la lista real de la base de datos a la Vista
             return View(listaRanking);
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
