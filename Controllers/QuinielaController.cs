@@ -15,7 +15,7 @@ namespace QuinielaGuaymura.Controllers
             _configuration = configuration;
         }
 
-        public IActionResult Ranking()
+        public IActionResult Index()
         {
             List<RankingViewModel> listaRanking = new List<RankingViewModel>();
 
@@ -56,7 +56,7 @@ namespace QuinielaGuaymura.Controllers
                             }
                         }
                     }
-                }
+                }   
             }
             catch (Exception ex)
             {
@@ -65,7 +65,7 @@ namespace QuinielaGuaymura.Controllers
             }
 
             // 3. Le pasamos la lista real de la base de datos a la Vista
-            return View(listaRanking);
+            return View("Ranking",listaRanking);
         }
     }
 }

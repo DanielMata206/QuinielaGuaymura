@@ -111,7 +111,12 @@
                                 <a class="nav-link text-white enlace-menu-central px-2" asp-area="" asp-controller="Quiniela" asp-action="Participantes">Participantes</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white enlace-menu-central px-2" asp-area="" asp-controller="Quiniela" asp-action="Tabla">Ver Tabla</a>
+                                <a class="nav-link text-white fw-bold"
+                                   asp-controller="Home"
+                                   asp-action="Index"
+                                   asp-fragment="tabla-posiciones">
+                                    Ver Tabla
+                                </a>
                             </li>
                         </ul>
                     </div>
