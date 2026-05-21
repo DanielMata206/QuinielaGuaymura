@@ -1,68 +1,92 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 
+<!-- ================================================== -->
+<!--                      HEAD                          -->
+<!-- ================================================== -->
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quiniela Guaymura</title>
 
+    <!-- ── Fuentes ── -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
+    <!-- ── Estilos externos ── -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/QuinielaGuaymura.styles.css" asp-append-version="true" />
 
+    <!-- ── Favicon ── -->
+    <link rel="icon" type="image/png" href="~/img/copa-mundial (1).png">
+
+    <!-- ── Estilos propios ── -->
     <style>
-        /* Gran contenedor unificado */
+
+        /* --- Navbar --- */
         .navbar-unificada {
-            /* Dejamos que los rellenos grandes se controlen adentro para romper el límite de Bootstrap */
             padding-top: 20px !important;
             padding-bottom: 20px !important;
             border-bottom: none !important;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
         }
 
-        /* Bloque central de bienvenida - ¡Aquí controlamos el tamaño gigante! */
+        /* --- Sección de bienvenida --- */
         .seccion-bienvenida {
             margin-top: 40px;
-            padding-top: 60px !important; /* Espacio extra hacia arriba */
-            padding-bottom: 90px !important; /* Espacio extra hacia abajo para lucir el fondo */
+            padding-top: 60px !important;
+            padding-bottom: 90px !important;
         }
 
+        /* --- Título principal --- */
         .titulo-gigante {
-            font-size: 4.5rem; /* Letras más imponentes y grandes */
+            font-size: 4.5rem;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
             line-height: 1.1;
         }
 
+        /* --- Subtítulo --- */
         .subtitulo-quiniela {
-            font-size: 1.4rem; /* Un poco más grande para que sea legible */
+            font-size: 1.4rem;
             opacity: 0.9;
         }
+
     </style>
 </head>
+
+
+<!-- ================================================== -->
+<!--                      BODY                          -->
+<!-- ================================================== -->
 <body>
 
+    <!-- ── Notificaciones / Alertas ── -->
     @if (TempData["Mensaje"] != null)
     {
         <div class="alert alert-@TempData["TipoMensaje"] alert-dismissible fade show text-center fw-bold"
              role="alert"
              style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-                    z-index: 9999; min-width: 350px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                        z-index: 9999; min-width: 350px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
             @TempData["Mensaje"]
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     }
 
+
+    <!-- ================================================== -->
+    <!--                     HEADER                         -->
+    <!-- ================================================== -->
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark navbar-unificada box-shadow position-relative">
             <div class="container">
                 <div class="w-100">
 
+
+                    <!-- ── Botones Login / Registro (esquina superior derecha) ── -->
                     <div class="position-absolute end-0 top-0 mt-2 me-4" style="z-index: 1050;">
                         <div class="navbar-collapse collapse flex-grow-0">
                             <ul class="navbar-nav gap-2">
@@ -100,8 +124,7 @@
                     </div>
 
 
-
-
+                    <!-- ── Menú de navegación central ── -->
                     <div class="d-flex justify-content-center my-2">
                         <ul class="navbar-nav flex-row gap-4">
                             <li class="nav-item">
@@ -113,7 +136,10 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white enlace-menu-central px-2" asp-area="" asp-controller="Quiniela" asp-action="Participantes">Participantes</a>
+                                <a class="nav-link text-white enlace-menu-central px-2"
+                                   asp-area="" asp-controller="Quiniela" asp-action="Participantes">
+                                    Participantes
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-white fw-bold"
@@ -127,15 +153,16 @@
                     </div>
 
 
-
-
+                    <!-- ── Sección de bienvenida (logo + título) ── -->
                     <div class="seccion-bienvenida text-white text-wrap container mt-4">
                         <div class="row align-items-center">
 
+                            <!-- Logo -->
                             <div class="col-2 text-start ps-4">
                                 <img src="~/img/logoGuaymura.png" style="max-width: 130px; height: auto;" />
                             </div>
 
+                            <!-- Título y subtítulo -->
                             <div class="col-8 text-center">
                                 <h1 class="titulo-gigante m-0">QUINIELA GUAYMURA</h1>
                                 <p class="subtitulo-quiniela mt-3 mb-0">Bienvenidos a la Quiniela de Guaymura.</p>
@@ -146,34 +173,51 @@
                         </div>
                     </div>
 
+
                 </div>
             </div>
         </nav>
     </header>
 
+
+    <!-- ================================================== -->
+    <!--                   CONTENIDO PRINCIPAL              -->
+    <!-- ================================================== -->
     <div class="container mt-4">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
+
+    <!-- ================================================== -->
+    <!--                      FOOTER                        -->
+    <!-- ================================================== -->
     <footer class="border-top footer text-muted bg-light text-center py-3">
         <div class="container">
             &copy; 2026 - Quiniela Guaymura
         </div>
     </footer>
 
+
+    <!-- ================================================== -->
+    <!--                     SCRIPTS                        -->
+    <!-- ================================================== -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
-    <!-- ===== MODALES DE AUTENTICACIÓN ===== -->
-    <!-- Modal Iniciar Sesión -->
+
+    <!-- ================================================== -->
+    <!--               MODALES DE AUTENTICACIÓN             -->
+    <!-- ================================================== -->
+    <!-- ── Modal: Iniciar Sesión ── -->
     <div class="modal fade" id="modalLogin" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
             <div class="modal-content border-0" style="border-radius: 15px; overflow: hidden;">
 
+                <!-- Encabezado -->
                 <div class="modal-header text-white border-0 pb-1" style="background-color: #781717;">
                     <h5 class="modal-title fuente-titulo w-100 text-center" style="font-size: 1.5rem; letter-spacing: 1px;">
                         Iniciar Sesión
@@ -181,21 +225,28 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
 
+                <!-- Cuerpo -->
                 <div class="modal-body px-4 py-4">
                     <form asp-controller="Account" asp-action="Login" method="post">
                         @Html.AntiForgeryToken()
+
+                        <!-- Campo: Usuario -->
                         <div class="mb-3">
                             <label class="form-label fw-bold" style="color: #781717;">Usuario</label>
                             <input type="text" name="NombreUsuario" class="form-control"
                                    placeholder="Ingresa tu usuario" required
                                    style="border: 2px solid #ddd; border-radius: 8px; padding: 10px 14px;">
                         </div>
+
+                        <!-- Campo: Contraseña -->
                         <div class="mb-4">
                             <label class="form-label fw-bold" style="color: #781717;">Contraseña</label>
                             <input type="password" name="Contrasena" class="form-control"
                                    placeholder="Ingresa tu contraseña" required
                                    style="border: 2px solid #ddd; border-radius: 8px; padding: 10px 14px;">
                         </div>
+
+                        <!-- Botón enviar -->
                         <div class="d-grid">
                             <button type="submit" class="btn text-white fw-bold py-2"
                                     style="background-color: #781717; border-radius: 8px; font-size: 1.05rem;">
@@ -204,6 +255,7 @@
                         </div>
                     </form>
 
+                    <!-- Enlace a registro -->
                     <div class="text-center mt-3">
                         <small class="text-muted">
                             ¿No tienes cuenta?
@@ -222,11 +274,13 @@
         </div>
     </div>
 
-    <!-- Modal Registrarse -->
+
+    <!-- ── Modal: Registrarse ── -->
     <div class="modal fade" id="modalRegistro" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
             <div class="modal-content border-0" style="border-radius: 15px; overflow: hidden;">
 
+                <!-- Encabezado -->
                 <div class="modal-header text-white border-0 pb-1" style="background-color: #781717;">
                     <h5 class="modal-title fuente-titulo w-100 text-center" style="font-size: 1.5rem; letter-spacing: 1px;">
                         Registrarse
@@ -234,21 +288,28 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
 
+                <!-- Cuerpo -->
                 <div class="modal-body px-4 py-4">
                     <form asp-controller="Account" asp-action="Register" method="post">
                         @Html.AntiForgeryToken()
+
+                        <!-- Campo: Usuario -->
                         <div class="mb-3">
                             <label class="form-label fw-bold" style="color: #781717;">Usuario</label>
                             <input type="text" name="NombreUsuario" class="form-control"
                                    placeholder="Elige un nombre de usuario" required
                                    style="border: 2px solid #ddd; border-radius: 8px; padding: 10px 14px;">
                         </div>
+
+                        <!-- Campo: Contraseña -->
                         <div class="mb-4">
                             <label class="form-label fw-bold" style="color: #781717;">Contraseña</label>
                             <input type="password" name="Contrasena" class="form-control"
                                    placeholder="Elige una contraseña" required
                                    style="border: 2px solid #ddd; border-radius: 8px; padding: 10px 14px;">
                         </div>
+
+                        <!-- Botón enviar -->
                         <div class="d-grid">
                             <button type="submit" class="btn text-white fw-bold py-2"
                                     style="background-color: #781717; border-radius: 8px; font-size: 1.05rem;">
@@ -257,6 +318,7 @@
                         </div>
                     </form>
 
+                    <!-- Enlace a login -->
                     <div class="text-center mt-3">
                         <small class="text-muted">
                             ¿Ya tienes cuenta?
@@ -274,5 +336,7 @@
             </div>
         </div>
     </div>
+
+
 </body>
 </html>
