@@ -105,7 +105,12 @@
                     <div class="d-flex justify-content-center my-2">
                         <ul class="navbar-nav flex-row gap-4">
                             <li class="nav-item">
-                                <a class="nav-link text-white enlace-menu-central px-2" asp-area="" asp-controller="Quiniela" asp-action="Ranking">Ranking</a>
+                                <a class="nav-link text-white fw-bold"
+                                   asp-controller="Home"
+                                   asp-action="Index"
+                                   asp-fragment="ranking">
+                                    RANKING
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-white enlace-menu-central px-2" asp-area="" asp-controller="Quiniela" asp-action="Participantes">Participantes</a>
