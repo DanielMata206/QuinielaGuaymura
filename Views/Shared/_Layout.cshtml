@@ -85,84 +85,89 @@
             <div class="container">
                 <div class="w-100">
 
-
-                    <!-- ── Botones Login / Registro (esquina superior derecha) ── -->
+                    <!-- Botones Login / Registro (esquina superior derecha) -->
                     <div class="position-absolute end-0 top-0 mt-2 me-4" style="z-index: 1050;">
-                        <div class="navbar-collapse collapse flex-grow-0">
-                            <ul class="navbar-nav gap-2">
-                                @if (Context.Session.GetString("UsuarioActivo") != null)
-                                {
-                                    <li class="nav-item d-flex align-items-center">
-                                        <span class="text-white fw-bold fuente-menu me-2">
-                                            @Context.Session.GetString("UsuarioActivo")
-                                        </span>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-white fuente-menu boton-login px-3"
-                                           asp-controller="Account" asp-action="Logout">
-                                            Cerrar Sesión
-                                        </a>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li class="nav-item">
-                                        <a class="nav-link text-white fuente-menu boton-login px-3"
-                                           href="#" data-bs-toggle="modal" data-bs-target="#modalLogin">
-                                            Iniciar Sesión
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-white fuente-menu boton-login px-3"
-                                           href="#" data-bs-toggle="modal" data-bs-target="#modalRegistro">
-                                            Registrarse
-                                        </a>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-
-
-                    <!-- ── Menú de navegación central ── -->
-                    <div class="d-flex justify-content-center my-2">
-                        <ul class="navbar-nav flex-row gap-4">
-                            <li class="nav-item">
-                                <a class="nav-link text-white fw-bold"
-                                   asp-controller="Home"
-                                   asp-action="Index"
-                                   asp-fragment="ranking">
-                                    RANKING
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white enlace-menu-central px-2"
-                                   asp-area="" asp-controller="Quiniela" asp-action="Participantes">
-                                    Participantes
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white fw-bold"
-                                   asp-controller="Home"
-                                   asp-action="Index"
-                                   asp-fragment="tabla-posiciones">
-                                    VER TABLA
-                                </a>
-                            </li>
+                        <ul class="navbar-nav flex-row gap-2">
+                            @if (Context.Session.GetString("UsuarioActivo") != null)
+                            {
+                                <li class="nav-item d-flex align-items-center">
+                                    <span class="text-white fw-bold fuente-menu me-2">
+                                        @Context.Session.GetString("UsuarioActivo")
+                                    </span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white fuente-menu boton-login px-3"
+                                       asp-controller="Account" asp-action="Logout">
+                                        Cerrar Sesión
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white fuente-menu boton-login px-3"
+                                       href="#" data-bs-toggle="modal" data-bs-target="#modalLogin">
+                                        Iniciar Sesión
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white fuente-menu boton-login px-3"
+                                       href="#" data-bs-toggle="modal" data-bs-target="#modalRegistro">
+                                        Registrarse
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </div>
 
+                    <!-- Menú central -->
+                    <div class="d-flex justify-content-center my-2">
+                        <ul class="navbar-nav flex-row gap-4">
 
-                    <!-- ── Sección de bienvenida (logo + título) ── -->
+                            @if (Context.Session.GetString("UsuarioActivo") != null)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white enlace-menu-central px-2 text-nowrap"
+                                       asp-controller="Quiniela" asp-action="RealizarQuiniela">
+                                        Realizar Quiniela
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link enlace-menu-central px-2 text-nowrap"
+                                       href="#"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#modalLogin"
+                                       style="color: #FFD700 !important; opacity: 0.7;"
+                                       title="Debes iniciar sesión para realizar tu quiniela">
+                                        🔒 Realizar Quiniela
+                                    </a>
+                                </li>
+                            }
+
+                            <li class="nav-item">
+                                <a class="nav-link text-white enlace-menu-central px-2 text-nowrap"
+                                   href="/#Premio">Premio</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-white enlace-menu-central px-2 text-nowrap"
+                                   href="/#tabla-posiciones">Ver Tabla</a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <!-- Logo + Título -->
                     <div class="seccion-bienvenida text-white text-wrap container mt-4">
                         <div class="row align-items-center">
 
-                            <!-- Logo -->
                             <div class="col-2 text-start ps-4">
                                 <img src="~/img/logoGuaymura.png" style="max-width: 130px; height: auto;" />
                             </div>
 
-                            <!-- Título y subtítulo -->
                             <div class="col-8 text-center">
                                 <h1 class="titulo-gigante m-0">QUINIELA GUAYMURA</h1>
                                 <p class="subtitulo-quiniela mt-3 mb-0">Bienvenidos a la Quiniela de Guaymura.</p>
@@ -172,7 +177,6 @@
 
                         </div>
                     </div>
-
 
                 </div>
             </div>

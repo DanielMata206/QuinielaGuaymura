@@ -1,0 +1,247 @@
+﻿@model Dictionary<string, List<QuinielaGuaymura.Models.PartidoViewModel>>
+
+@{
+    ViewData["Title"] = "Realizar Quiniela";
+
+    // Emojis de banderas por país
+    var banderas = new Dictionary<string, string>
+    {
+        {"México", "🇲🇽"}, {"Sudáfrica", "🇿🇦"}, {"República de Corea", "🇰🇷"}, {"República Checa", "🇨🇿"},
+        {"Canadá", "🇨🇦"}, {"Bosnia y Herzegovina", "🇧🇦"}, {"Catar", "🇶🇦"}, {"Suiza", "🇨🇭"},
+        {"Brasil", "🇧🇷"}, {"Marruecos", "🇲🇦"}, {"Haití", "🇭🇹"}, {"Escocia", "🏴󠁧󠁢󠁳󠁣󠁴󠁿"},
+        {"Estados Unidos", "🇺🇸"}, {"Paraguay", "🇵🇾"}, {"Australia", "🇦🇺"}, {"Turquía", "🇹🇷"},
+        {"Alemania", "🇩🇪"}, {"Curazao", "🇨🇼"}, {"Costa de Marfil", "🇨🇮"}, {"Ecuador", "🇪🇨"},
+        {"Países Bajos", "🇳🇱"}, {"Japón", "🇯🇵"}, {"Suecia", "🇸🇪"}, {"Túnez", "🇹🇳"},
+        {"Bélgica", "🇧🇪"}, {"Egipto", "🇪🇬"}, {"Irán", "🇮🇷"}, {"Nueva Zelanda", "🇳🇿"},
+        {"España", "🇪🇸"}, {"Cabo Verde", "🇨🇻"}, {"Arabia Saudita", "🇸🇦"}, {"Uruguay", "🇺🇾"},
+        {"Francia", "🇫🇷"}, {"Senegal", "🇸🇳"}, {"Iraq", "🇮🇶"}, {"Noruega", "🇳🇴"},
+        {"Austria", "🇦🇹"}, {"Jordania", "🇯🇴"}, {"Argentina", "🇦🇷"}, {"Argelia", "🇩🇿"},
+        {"Portugal", "🇵🇹"}, {"DR Congo", "🇨🇩"}, {"Uzbekistán", "🇺🇿"}, {"Colombia", "🇨🇴"},
+        {"Inglaterra", "🏴󠁧󠁢󠁥󠁮󠁧󠁿"}, {"Croacia", "🇭🇷"}, {"Ghana", "🇬🇭"}, {"Panamá", "🇵🇦"}
+    };
+
+    string Bandera(string pais) => banderas.ContainsKey(pais) ? banderas[pais] : "🏳️";
+}
+
+<style>
+    .quiniela-header {
+        background: linear-gradient(135deg, #781717, #a01f1f);
+        color: white;
+        padding: 40px 0 30px;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .tab-grupo {
+        background: none;
+        border: 2px solid #781717;
+        color: #781717;
+        border-radius: 8px;
+        padding: 6px 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 0.95rem;
+    }
+
+        .tab-grupo.activo, .tab-grupo:hover {
+            background-color: #781717;
+            color: white;
+        }
+
+    .seccion-grupo {
+        display: none;
+    }
+
+        .seccion-grupo.activa {
+            display: block;
+        }
+
+    .card-partido {
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 18px 20px;
+        margin-bottom: 16px;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        transition: box-shadow 0.2s;
+    }
+
+        .card-partido:hover {
+            box-shadow: 0 4px 16px rgba(120,23,23,0.13);
+            border-color: #781717;
+        }
+
+    .pais-nombre {
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: #333;
+    }
+
+    .bandera {
+        font-size: 1.8rem;
+    }
+
+    .input-goles {
+        width: 65px;
+        text-align: center;
+        font-size: 1.3rem;
+        font-weight: bold;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        padding: 4px;
+        color: #781717;
+    }
+
+        .input-goles:focus {
+            border-color: #781717;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(120,23,23,0.15);
+        }
+
+    .vs-texto {
+        font-size: 1rem;
+        color: #999;
+        font-weight: bold;
+        margin: 0 8px;
+    }
+
+    .fecha-partido {
+        font-size: 0.82rem;
+        color: #888;
+        margin-top: 8px;
+    }
+
+    .btn-enviar {
+        background: linear-gradient(135deg, #781717, #a01f1f);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 14px 50px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 4px 15px rgba(120,23,23,0.3);
+    }
+
+        .btn-enviar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(120,23,23,0.4);
+        }
+
+    .grupo-titulo {
+        color: #781717;
+        font-family: 'Impact', sans-serif;
+        font-size: 1.6rem;
+        border-bottom: 3px solid #781717;
+        padding-bottom: 8px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<!-- Encabezado -->
+<div class="quiniela-header">
+    <h1 class="fuente-titulo" style="font-size: 2.5rem; letter-spacing: 2px;"> REALIZAR QUINIELA</h1>
+    <p style="opacity: 0.85; font-size: 1.1rem;">Ingresa tu predicción para cada partido de la fase de grupos</p>
+    <p style="opacity: 0.7; font-size: 0.9rem;">
+        🟡 <strong>2 puntos</strong> por acertar el ganador &nbsp;|&nbsp;
+        🟢 <strong>2 puntos extra</strong> por acertar el marcador exacto
+    </p>
+</div>
+
+<div class="container" style="max-width: 850px;">
+
+    <form asp-controller="Quiniela" asp-action="GuardarQuiniela" method="post">
+        @Html.AntiForgeryToken()
+
+        <!-- Tabs de grupos -->
+        <div class="d-flex flex-wrap gap-2 justify-content-center mb-4">
+            @foreach (var grupo in Model.Keys)
+            {
+                <button type="button"
+                        class="tab-grupo @(grupo == Model.Keys.First() ? "activo" : "")"
+                        onclick="mostrarGrupo('@grupo', this)">
+                    GRUPO @grupo
+                </button>
+            }
+        </div>
+
+        <!-- Partidos por grupo -->
+        @foreach (var grupo in Model)
+        {
+            <div id="grupo-@grupo.Key" class="seccion-grupo @(grupo.Key == Model.Keys.First() ? "activa" : "")">
+
+                <h3 class="grupo-titulo">GRUPO @grupo.Key</h3>
+
+                @foreach (var partido in grupo.Value)
+                {
+                    <div class="card-partido">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+
+                            <!-- País Local -->
+                            <div class="text-center" style="min-width: 140px;">
+                                <div class="bandera">@Bandera(partido.PaisLocal)</div>
+                                <div class="pais-nombre">@partido.PaisLocal</div>
+                            </div>
+
+                            <!-- Inputs de goles -->
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="number"
+                                       name="local_@partido.IdPartido"
+                                       class="input-goles"
+                                       min="0" max="20"
+                                       placeholder="0"
+                                       required />
+                                <span class="vs-texto">VS</span>
+                                <input type="number"
+                                       name="visitante_@partido.IdPartido"
+                                       class="input-goles"
+                                       min="0" max="20"
+                                       placeholder="0"
+                                       required />
+                            </div>
+
+                            <!-- País Visitante -->
+                            <div class="text-center" style="min-width: 140px;">
+                                <div class="bandera">@Bandera(partido.PaisVisitante)</div>
+                                <div class="pais-nombre">@partido.PaisVisitante</div>
+                            </div>
+
+                        </div>
+
+                        <!-- Fecha -->
+                        <div class="fecha-partido text-center">
+                            📅 @partido.FechaPartido.ToString("dddd, dd 'de' MMMM 'de' yyyy — HH:mm", new System.Globalization.CultureInfo("es-ES"))
+                        </div>
+                    </div>
+                }
+
+            </div>
+        }
+
+        <!-- Botón enviar -->
+        <div class="text-center my-5">
+            <button type="submit" class="btn-enviar">
+                🏆 Enviar Quiniela Completa
+            </button>
+            <p class="text-muted mt-3" style="font-size: 0.85rem;">
+                Puedes volver a enviar para actualizar tus predicciones antes de que inicie cada partido.
+            </p>
+        </div>
+
+    </form>
+</div>
+
+<script>
+    function mostrarGrupo(grupo, boton) {
+        // Ocultar todas las secciones
+        document.querySelectorAll('.seccion-grupo').forEach(s => s.classList.remove('activa'));
+        // Quitar activo de todos los tabs
+        document.querySelectorAll('.tab-grupo').forEach(b => b.classList.remove('activo'));
+        // Mostrar el grupo seleccionado
+        document.getElementById('grupo-' + grupo).classList.add('activa');
+        // Marcar el tab como activo
+        boton.classList.add('activo');
+    }
+</script>
