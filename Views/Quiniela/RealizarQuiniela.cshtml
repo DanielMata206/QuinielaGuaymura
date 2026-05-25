@@ -3,24 +3,21 @@
 @{
     ViewData["Title"] = "Realizar Quiniela";
 
-    // Emojis de banderas por país
-    // Reemplazar el diccionario de banderas y la función Bandera con esto:
-
     var banderas = new Dictionary<string, string>
-{
-    {"México", "mx"}, {"Sudáfrica", "za"}, {"República de Corea", "kr"}, {"República Checa", "cz"},
-    {"Canadá", "ca"}, {"Bosnia y Herzegovina", "ba"}, {"Catar", "qa"}, {"Suiza", "ch"},
-    {"Brasil", "br"}, {"Marruecos", "ma"}, {"Haití", "ht"}, {"Escocia", "gb-sct"},
-    {"Estados Unidos", "us"}, {"Paraguay", "py"}, {"Australia", "au"}, {"Turquía", "tr"},
-    {"Alemania", "de"}, {"Curazao", "cw"}, {"Costa de Marfil", "ci"}, {"Ecuador", "ec"},
-    {"Países Bajos", "nl"}, {"Japón", "jp"}, {"Suecia", "se"}, {"Túnez", "tn"},
-    {"Bélgica", "be"}, {"Egipto", "eg"}, {"Irán", "ir"}, {"Nueva Zelanda", "nz"},
-    {"España", "es"}, {"Cabo Verde", "cv"}, {"Arabia Saudita", "sa"}, {"Uruguay", "uy"},
-    {"Francia", "fr"}, {"Senegal", "sn"}, {"Iraq", "iq"}, {"Noruega", "no"},
-    {"Austria", "at"}, {"Jordania", "jo"}, {"Argentina", "ar"}, {"Argelia", "dz"},
-    {"Portugal", "pt"}, {"DR Congo", "cd"}, {"Uzbekistán", "uz"}, {"Colombia", "co"},
-    {"Inglaterra", "gb-eng"}, {"Croacia", "hr"}, {"Ghana", "gh"}, {"Panamá", "pa"}
-};
+    {
+        {"México", "mx"}, {"Sudáfrica", "za"}, {"República de Corea", "kr"}, {"República Checa", "cz"},
+        {"Canadá", "ca"}, {"Bosnia y Herzegovina", "ba"}, {"Catar", "qa"}, {"Suiza", "ch"},
+        {"Brasil", "br"}, {"Marruecos", "ma"}, {"Haití", "ht"}, {"Escocia", "gb-sct"},
+        {"Estados Unidos", "us"}, {"Paraguay", "py"}, {"Australia", "au"}, {"Turquía", "tr"},
+        {"Alemania", "de"}, {"Curazao", "cw"}, {"Costa de Marfil", "ci"}, {"Ecuador", "ec"},
+        {"Países Bajos", "nl"}, {"Japón", "jp"}, {"Suecia", "se"}, {"Túnez", "tn"},
+        {"Bélgica", "be"}, {"Egipto", "eg"}, {"Irán", "ir"}, {"Nueva Zelanda", "nz"},
+        {"España", "es"}, {"Cabo Verde", "cv"}, {"Arabia Saudita", "sa"}, {"Uruguay", "uy"},
+        {"Francia", "fr"}, {"Senegal", "sn"}, {"Irak", "iq"}, {"Noruega", "no"},
+        {"Austria", "at"}, {"Jordania", "jo"}, {"Argentina", "ar"}, {"Argelia", "dz"},
+        {"Portugal", "pt"}, {"RD Congo", "cd"}, {"Uzbekistán", "uz"}, {"Colombia", "co"},
+        {"Inglaterra", "gb-eng"}, {"Croacia", "hr"}, {"Ghana", "gh"}, {"Panamá", "pa"}
+    };
 
     string Bandera(string pais)
     {
@@ -151,9 +148,122 @@
     }
 </style>
 
-<!-- Encabezado -->
+
+<!-- ================================================== -->
+<!--         SECCIÓN: GRUPOS DEL MUNDIAL 2026           -->
+<!-- ================================================== -->
+<div class="seccion-full reveal">
+
+    <div style="width: auto; height: 4px; background: linear-gradient(90deg, #781717, #FFD700, #781717); margin: 0 auto 50px;"></div>
+
+    <div class="text-center mb-5 reveal">
+        <p class="text-uppercase mb-2" style="color: #781717; font-size: 0.85rem; letter-spacing: 4px; font-weight: 600;">FIFA WORLD CUP 2026</p>
+        <h2 class="fuente-titulo" style="color: #781717; font-size: 2.8rem; text-transform: uppercase;">
+            Grupos del Mundial 2026
+        </h2>
+        <p class="lead" style="color: #0a0a0a;">Conoce las 48 selecciones clasificadas divididas en 12 grupos</p>
+        <hr style="width: 150px; border-top: 3px solid #781717; margin: 0 auto;">
+    </div>
+
+    <div class="container-fluid px-4 px-md-5" style="max-width: 1300px; margin: 0 auto;">
+        <div class="row g-4 justify-content-center">
+
+            @{
+                var grupos = new List<(string Nombre, List<(string Pais, string Codigo, string FlagCode)> Selecciones)>
+                        {
+                        ("GROUP A", new List<(string,string,string)> {
+                        ("México","MEX","mx"),("Sudáfrica","RSA","za"),("República de Corea","KOR","kr"),("República Checa","CZE","cz")
+                        }),
+                        ("GROUP B", new List<(string,string,string)> {
+                        ("Canadá","CAN","ca"),("Bosnia y Herzegovina","BIH","ba"),("Catar","QAT","qa"),("Suiza","SUI","ch")
+                        }),
+                        ("GROUP C", new List<(string,string,string)> {
+                        ("Brasil","BRA","br"),("Marruecos","MAR","ma"),("Haití","HAI","ht"),("Escocia","SCO","gb-sct")
+                        }),
+                        ("GROUP D", new List<(string,string,string)> {
+                        ("Estados Unidos","USA","us"),("Paraguay","PAR","py"),("Australia","AUS","au"),("Turquía","TUR","tr")
+                        }),
+                        ("GROUP E", new List<(string,string,string)> {
+                        ("Alemania","GER","de"),("Curazao","CUR","cw"),("Costa de Marfil","CIV","ci"),("Ecuador","ECU","ec")
+                        }),
+                        ("GROUP F", new List<(string,string,string)> {
+                        ("Países Bajos","NED","nl"),("Japón","JPN","jp"),("Suecia","SWE","se"),("Túnez","TUN","tn")
+                        }),
+                        ("GROUP G", new List<(string,string,string)> {
+                        ("Bélgica","BEL","be"),("Egipto","EGY","eg"),("Irán","IRI","ir"),("Nueva Zelanda","NZL","nz")
+                        }),
+                        ("GROUP H", new List<(string,string,string)> {
+                        ("España","ESP","es"),("Cabo Verde","CPV","cv"),("Arabia Saudita","KSA","sa"),("Uruguay","URU","uy")
+                        }),
+                        ("GROUP I", new List<(string,string,string)> {
+                        ("Francia","FRA","fr"),("Senegal","SEN","sn"),("Irak","IRQ","iq"),("Noruega","NOR","no")
+                        }),
+                        ("GROUP J", new List<(string,string,string)> {
+                        ("Argentina","ARG","ar"),("Argelia","ALG","dz"),("Austria","AUT","at"),("Jordania","JOR","jo")
+                        }),
+                        ("GROUP K", new List<(string,string,string)> {
+                        ("Portugal","POR","pt"),("RD Congo","COD","cd"),("Uzbekistán","UZB","uz"),("Colombia","COL","co")
+                        }),
+                        ("GROUP L", new List<(string,string,string)> {
+                        ("Inglaterra","ENG","gb-eng"),("Croacia","CRO","hr"),("Ghana","GHA","gh"),("Panamá","PAN","pa")
+                        }),
+                        };
+            }
+
+            @foreach (var g in grupos)
+            {
+                <div class="col-xl-3 col-lg-4 col-md-6 col-12 reveal">
+                    <div class="h-100"
+                         style="background: #fff; border: 1px solid rgba(120,23,23,0.25); border-top: 3px solid #781717; border-radius: 12px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                         onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 16px 40px rgba(120,23,23,0.25)'"
+                         onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
+
+                        <!-- Cabecera -->
+                        <div style="background: linear-gradient(135deg, #781717, #a01f1f); padding: 14px 20px;">
+                            <span class="fuente-titulo" style="color: white; font-size: 1.1rem; font-weight: 800; letter-spacing: 2px;">@g.Nombre</span>
+                        </div>
+
+                        <!-- Selecciones -->
+                        <div style="padding: 8px 0;">
+                            @foreach (var s in g.Selecciones)
+                            {
+                                <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; border-bottom: 1px solid rgba(120,23,23,0.08); transition: background 0.2s;"
+                                     onmouseover="this.style.background='rgba(120,23,23,0.05)'"
+                                     onmouseout="this.style.background='transparent'">
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        @if (!string.IsNullOrEmpty(s.FlagCode))
+                                        {
+                                            <img src="https://flagcdn.com/32x24/@(s.FlagCode).png"
+                                                 width="32" height="24"
+                                                 alt="@s.Pais"
+                                                 style="border-radius: 3px; object-fit: cover;" />
+                                        }
+                                        else
+                                        {
+                                            <span style="font-size: 1.2rem;">🏳️</span>
+                                        }
+                                        <span style="color: #222; font-size: 0.92rem; font-weight: 500;">@s.Pais</span>
+                                    </div>
+                                    <span style="color: #781717; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; background: rgba(120,23,23,0.08); padding: 2px 8px; border-radius: 4px;">@s.Codigo</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+    <div style="width: auto; height: 4px; background: linear-gradient(90deg, #781717, #FFD700, #781717); margin: 50px auto 0;"></div>
+</div>
+
+
+<!-- ================================================== -->
+<!--              ENCABEZADO QUINIELA                   -->
+<!-- ================================================== -->
 <div class="quiniela-header">
-    <h1 class="fuente-titulo" style="font-size: 2.5rem; letter-spacing: 2px;"> REALIZAR QUINIELA</h1>
+    <h1 class="fuente-titulo" style="font-size: 2.5rem; letter-spacing: 2px;">REALIZAR QUINIELA</h1>
     <p style="opacity: 0.85; font-size: 1.1rem;">Ingresa tu predicción para cada partido de la fase de grupos</p>
     <p style="opacity: 0.7; font-size: 0.9rem;">
         🟡 <strong>2 puntos</strong> por acertar el ganador &nbsp;|&nbsp;
@@ -228,31 +338,30 @@
                     </div>
                 }
 
+                @* Botón solo visible en el Grupo L *@
+                @if (grupo.Key == "L")
+                {
+                    <div class="text-center my-5">
+                        <button type="submit" class="btn-enviar">
+                            🏆 Enviar Quiniela Completa
+                        </button>
+                        <p class="text-muted mt-3" style="font-size: 0.85rem;">
+                            Puedes volver a enviar para actualizar tus predicciones antes de que inicie cada partido.
+                        </p>
+                    </div>
+                }
+
             </div>
         }
-
-        <!-- Botón enviar -->
-        <div class="text-center my-5">
-            <button type="submit" class="btn-enviar">
-                🏆 Enviar Quiniela Completa
-            </button>
-            <p class="text-muted mt-3" style="font-size: 0.85rem;">
-                Puedes volver a enviar para actualizar tus predicciones antes de que inicie cada partido.
-            </p>
-        </div>
 
     </form>
 </div>
 
 <script>
     function mostrarGrupo(grupo, boton) {
-        // Ocultar todas las secciones
         document.querySelectorAll('.seccion-grupo').forEach(s => s.classList.remove('activa'));
-        // Quitar activo de todos los tabs
         document.querySelectorAll('.tab-grupo').forEach(b => b.classList.remove('activo'));
-        // Mostrar el grupo seleccionado
         document.getElementById('grupo-' + grupo).classList.add('activa');
-        // Marcar el tab como activo
         boton.classList.add('activo');
     }
 </script>
