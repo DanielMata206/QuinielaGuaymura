@@ -123,35 +123,6 @@
                     <!-- Menú central -->
                     <div class="d-flex justify-content-center my-2">
                         <ul class="navbar-nav flex-row gap-4">
-
-                            @if (Context.Session.GetString("UsuarioActivo") != null)
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-white enlace-menu-central px-2 text-nowrap"
-                                       asp-controller="Quiniela" asp-action="RealizarQuiniela">
-                                        Realizar Quiniela
-                                    </a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link enlace-menu-central px-2 text-nowrap"
-                                       href="#"
-                                       data-bs-toggle="modal"
-                                       data-bs-target="#modalLogin"
-                                       style="color: #FFD700 !important; opacity: 0.7;"
-                                       title="Debes iniciar sesión para realizar tu quiniela">
-                                        🔒 Realizar Quiniela
-                                    </a>
-                                </li>
-                            }
-
-                            <li class="nav-item">
-                                <a class="nav-link text-white enlace-menu-central px-2 text-nowrap"
-                                   href="/#Premio">Premio</a>
-                            </li>
-
                             <li class="nav-item">
                                 <a class="nav-link text-white enlace-menu-central px-2 text-nowrap"
                                    href="/#tabla-posiciones">Ver Tabla</a>
