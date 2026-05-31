@@ -13,36 +13,41 @@ namespace PresentacionQuinielaGuaymura.Controllers
             _configuration = configuration;
         }
 
-        // POST: Recibe el formulario de Login
+        // POST: Login con Correo y Contraseña
         [HttpPost]
-        public IActionResult Login(string NombreUsuario, string Contrasena)
+        public IActionResult Login(string Correo, string Contrasena)
         {
             string connectionString = _configuration.GetConnectionString("ConexionQuiniela");
 
-            string query = "SELECT COUNT(*) FROM USUARIOS WHERE Usuario = @usuario AND Contraseña = @contrasena";
-
+            string query = @"SELECT ID_Usuario, Nombre, Apellido 
+                             FROM USUARIOS 
+                             WHERE Correo = @correo AND Contraseña = @contrasena";
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    command.Parameters.AddWithValue("@correo", Correo.Trim());
+                    command.Parameters.AddWithValue("@contrasena", Contrasena);
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        command.Parameters.AddWithValue("@usuario", NombreUsuario.Trim());
-                        command.Parameters.AddWithValue("@contrasena", Contrasena);
-
-                        connection.Open();
-                        int count = (int)command.ExecuteScalar();
-
-                        if (count > 0)
+                        if (reader.Read())
                         {
-                            // Guardamos el usuario en Session para saber quién está logueado
-                            HttpContext.Session.SetString("UsuarioActivo", NombreUsuario.Trim());
-                            TempData["Mensaje"] = "¡Bienvenido, " + NombreUsuario.Trim() + "!";
+                            string nombreCompleto = reader["Nombre"].ToString().Trim()
+                                                  + " " + reader["Apellido"].ToString().Trim();
+                            int idUsuario = Convert.ToInt32(reader["ID_Usuario"]);
+
+                            HttpContext.Session.SetString("UsuarioActivo", nombreCompleto);
+                            HttpContext.Session.SetInt32("IDUsuario", idUsuario);
+
+                            TempData["Mensaje"] = "✅ ¡Bienvenido, " + nombreCompleto + "!";
                             TempData["TipoMensaje"] = "success";
                         }
                         else
                         {
-                            TempData["Mensaje"] = "❌ Usuario o contraseña incorrectos.";
+                            TempData["Mensaje"] = "❌ Correo o contraseña incorrectos.";
                             TempData["TipoMensaje"] = "danger";
                         }
                     }
@@ -57,40 +62,40 @@ namespace PresentacionQuinielaGuaymura.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        // POST: Recibe el formulario de Registro
+        // POST: Registro con Nombre, Apellido, Correo y Contraseña
         [HttpPost]
-        public IActionResult Register(string NombreUsuario, string Contrasena)
+        public IActionResult Register(string Nombre, string Apellido, string Correo, string Contrasena)
         {
             string connectionString = _configuration.GetConnectionString("ConexionQuiniela");
 
-            // Primero verificamos que el usuario no exista ya
-            string queryVerificar = "SELECT COUNT(*) FROM USUARIOS WHERE Usuario = @usuario";
-            string queryInsertar = "INSERT INTO USUARIOS (Usuario, Contraseña, puntos_totales) VALUES (@usuario, @contrasena, 0)";
-
+            string queryVerificar = "SELECT COUNT(*) FROM USUARIOS WHERE Correo = @correo";
+            string queryInsertar = @"INSERT INTO USUARIOS (Nombre, Apellido, Correo, Contraseña, puntos_totales) 
+                                      VALUES (@nombre, @apellido, @correo, @contrasena, 0)";
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
 
-                    // 1. Verificar si ya existe
+                    // Verificar si el correo ya existe
                     using (SqlCommand cmdVerificar = new SqlCommand(queryVerificar, connection))
                     {
-                        cmdVerificar.Parameters.AddWithValue("@usuario", NombreUsuario.Trim());
+                        cmdVerificar.Parameters.AddWithValue("@correo", Correo.Trim());
                         int existe = (int)cmdVerificar.ExecuteScalar();
-
                         if (existe > 0)
                         {
-                            TempData["Mensaje"] = "⚠️ Ese nombre de usuario ya está en uso.";
+                            TempData["Mensaje"] = "⚠️ Ese correo ya está registrado.";
                             TempData["TipoMensaje"] = "warning";
                             return RedirectToAction("Index", "Home");
                         }
                     }
 
-                    // 2. Insertar el nuevo usuario
+                    // Insertar nuevo usuario
                     using (SqlCommand cmdInsertar = new SqlCommand(queryInsertar, connection))
                     {
-                        cmdInsertar.Parameters.AddWithValue("@usuario", NombreUsuario.Trim());
+                        cmdInsertar.Parameters.AddWithValue("@nombre", Nombre.Trim());
+                        cmdInsertar.Parameters.AddWithValue("@apellido", Apellido.Trim());
+                        cmdInsertar.Parameters.AddWithValue("@correo", Correo.Trim());
                         cmdInsertar.Parameters.AddWithValue("@contrasena", Contrasena);
                         cmdInsertar.ExecuteNonQuery();
 
@@ -112,10 +117,10 @@ namespace PresentacionQuinielaGuaymura.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("UsuarioActivo");
-            TempData["Mensaje"] = " Sesión cerrada correctamente.";
+            HttpContext.Session.Remove("IDUsuario");
+            TempData["Mensaje"] = "👋 Sesión cerrada correctamente.";
             TempData["TipoMensaje"] = "success";
             return RedirectToAction("Index", "Home");
         }
-
     }
 }

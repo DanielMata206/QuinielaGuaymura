@@ -21,7 +21,7 @@ namespace QuinielaGuaymura.Controllers
             string connectionString = _configuration.GetConnectionString("ConexionQuiniela");
             string query = @"
                 SELECT 
-                    u.Usuario, 
+                    LTRIM(RTRIM(u.Nombre)) + ' ' + LTRIM(RTRIM(u.Apellido)) AS Usuario, 
                     u.puntos_totales,
                     COUNT(CASE WHEN p.Puntos_Ganados > 0 THEN 1 END) AS PartidosAcertados
                 FROM USUARIOS u
