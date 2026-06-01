@@ -42,12 +42,12 @@ namespace PresentacionQuinielaGuaymura.Controllers
                             HttpContext.Session.SetString("UsuarioActivo", nombreCompleto);
                             HttpContext.Session.SetInt32("IDUsuario", idUsuario);
 
-                            TempData["Mensaje"] = "✅ ¡Bienvenido, " + nombreCompleto + "!";
+                            TempData["Mensaje"] = "¡Bienvenido, " + nombreCompleto + "!";
                             TempData["TipoMensaje"] = "success";
                         }
                         else
                         {
-                            TempData["Mensaje"] = "❌ Correo o contraseña incorrectos.";
+                            TempData["Mensaje"] = "Correo o contraseña incorrectos.";
                             TempData["TipoMensaje"] = "danger";
                         }
                     }
@@ -55,7 +55,7 @@ namespace PresentacionQuinielaGuaymura.Controllers
             }
             catch (Exception ex)
             {
-                TempData["Mensaje"] = "❌ Error al conectar con la base de datos.";
+                TempData["Mensaje"] = "Error al conectar con la base de datos.";
                 TempData["TipoMensaje"] = "danger";
             }
 
@@ -84,7 +84,7 @@ namespace PresentacionQuinielaGuaymura.Controllers
                         int existe = (int)cmdVerificar.ExecuteScalar();
                         if (existe > 0)
                         {
-                            TempData["Mensaje"] = "⚠️ Ese correo ya está registrado.";
+                            TempData["Mensaje"] = " Ese correo ya está registrado.";
                             TempData["TipoMensaje"] = "warning";
                             return RedirectToAction("Index", "Home");
                         }
@@ -99,14 +99,14 @@ namespace PresentacionQuinielaGuaymura.Controllers
                         cmdInsertar.Parameters.AddWithValue("@contrasena", Contrasena);
                         cmdInsertar.ExecuteNonQuery();
 
-                        TempData["Mensaje"] = "✅ ¡Cuenta creada exitosamente! Ya puedes iniciar sesión.";
+                        TempData["Mensaje"] = "¡Cuenta creada exitosamente! Ya puedes iniciar sesión.";
                         TempData["TipoMensaje"] = "success";
                     }
                 }
             }
             catch (Exception ex)
             {
-                TempData["Mensaje"] = "❌ Error al registrar. Intenta de nuevo.";
+                TempData["Mensaje"] = "Error al registrar. Intenta de nuevo.";
                 TempData["TipoMensaje"] = "danger";
             }
 
@@ -118,7 +118,7 @@ namespace PresentacionQuinielaGuaymura.Controllers
         {
             HttpContext.Session.Remove("UsuarioActivo");
             HttpContext.Session.Remove("IDUsuario");
-            TempData["Mensaje"] = "👋 Sesión cerrada correctamente.";
+            TempData["Mensaje"] = "Sesión cerrada correctamente.";
             TempData["TipoMensaje"] = "success";
             return RedirectToAction("Index", "Home");
         }

@@ -1,0 +1,224 @@
+﻿@model Dictionary<string, List<PresentacionQuinielaGuaymura.Models.PrediccionViewModel>>
+@{
+    ViewData["Title"] = "Mi Quiniela";
+
+    var banderas = new Dictionary<string, string>
+    {
+        {"México","mx"},{"Sudáfrica","za"},{"República de Corea","kr"},{"República Checa","cz"},
+        {"Canadá","ca"},{"Bosnia y Herzegovina","ba"},{"Catar","qa"},{"Suiza","ch"},
+        {"Brasil","br"},{"Marruecos","ma"},{"Haití","ht"},{"Escocia","gb-sct"},
+        {"Estados Unidos","us"},{"Paraguay","py"},{"Australia","au"},{"Turquía","tr"},
+        {"Alemania","de"},{"Curazao","cw"},{"Costa de Marfil","ci"},{"Ecuador","ec"},
+        {"Países Bajos","nl"},{"Japón","jp"},{"Suecia","se"},{"Túnez","tn"},
+        {"Bélgica","be"},{"Egipto","eg"},{"Irán","ir"},{"Nueva Zelanda","nz"},
+        {"España","es"},{"Cabo Verde","cv"},{"Arabia Saudita","sa"},{"Uruguay","uy"},
+        {"Francia","fr"},{"Senegal","sn"},{"Irak","iq"},{"Noruega","no"},
+        {"Austria","at"},{"Jordania","jo"},{"Argentina","ar"},{"Argelia","dz"},
+        {"Portugal","pt"},{"RD Congo","cd"},{"Uzbekistán","uz"},{"Colombia","co"},
+        {"Inglaterra","gb-eng"},{"Croacia","hr"},{"Ghana","gh"},{"Panamá","pa"}
+    };
+
+    string Bandera(string pais)
+    {
+        if (!banderas.ContainsKey(pais)) return "<span style='font-size:1.5rem'>🏳️</span>";
+        return $"<img src='https://flagcdn.com/32x24/{banderas[pais]}.png' width='32' height='24' style='border-radius:3px;' />";
+    }
+}
+
+<style>
+    .ver-header {
+        background: linear-gradient(135deg, #4a0e0e, #781717, #a01f1f);
+        color: white;
+        padding: 40px 0 30px;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .tab-grupo {
+        background: none;
+        border: 2px solid #781717;
+        color: #781717;
+        border-radius: 8px;
+        padding: 6px 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 0.95rem;
+    }
+
+        .tab-grupo.activo, .tab-grupo:hover {
+            background-color: #781717;
+            color: white;
+        }
+
+    .seccion-grupo {
+        display: none;
+    }
+
+        .seccion-grupo.activa {
+            display: block;
+        }
+
+    .card-partido {
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-bottom: 14px;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+        .card-partido.con-puntos {
+            border-color: #28a745;
+            background: #f6fff8;
+        }
+
+        .card-partido.sin-prediccion {
+            border-color: #dee2e6;
+            background: #f8f9fa;
+            opacity: 0.7;
+        }
+
+    .pais-nombre {
+        font-weight: bold;
+        font-size: 1rem;
+        color: #333;
+    }
+
+    .marcador {
+        font-size: 1.6rem;
+        font-weight: 900;
+        color: #781717;
+        min-width: 80px;
+        text-align: center;
+    }
+
+    .vs-texto {
+        font-size: 0.9rem;
+        color: #aaa;
+        font-weight: bold;
+        margin: 0 6px;
+    }
+
+    .badge-puntos {
+        font-size: 0.85rem;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-weight: bold;
+    }
+
+    .grupo-titulo {
+        color: #781717;
+        font-family: 'Impact', sans-serif;
+        font-size: 1.5rem;
+        border-bottom: 3px solid #781717;
+        padding-bottom: 8px;
+        margin-bottom: 18px;
+    }
+
+    .fecha-partido {
+        font-size: 0.8rem;
+        color: #999;
+        margin-top: 6px;
+    }
+</style>
+
+<div class="ver-header">
+    <h1 class="fuente-titulo" style="font-size: 2.3rem; letter-spacing: 2px;">📋 MI QUINIELA</h1>
+    <p style="opacity: 0.85; font-size: 1.1rem;">@ViewBag.NombreUsuario</p>
+    <p style="opacity: 0.65; font-size: 0.9rem;">Vista de solo lectura — tus predicciones para la fase de grupos</p>
+</div>
+
+<div class="container" style="max-width: 850px;">
+
+    <div class="d-flex flex-wrap gap-2 justify-content-center mb-4">
+        @foreach (var grupo in Model.Keys)
+        {
+            <button type="button"
+                    class="tab-grupo @(grupo == Model.Keys.First() ? "activo" : "")"
+                    onclick="mostrarGrupo('@grupo', this)">
+                GRUPO @grupo
+            </button>
+        }
+    </div>
+
+    @foreach (var grupo in Model)
+    {
+        <div id="grupo-@grupo.Key" class="seccion-grupo @(grupo.Key == Model.Keys.First() ? "activa" : "")">
+
+            <h3 class="grupo-titulo">GRUPO @grupo.Key</h3>
+
+            @foreach (var p in grupo.Value)
+            {
+                bool tienePrediccion = p.GolesLocalPrediccion.HasValue;
+                bool tienePuntos = p.PuntosGanados.HasValue && p.PuntosGanados > 0;
+                string claseCard = !tienePrediccion ? "sin-prediccion" : (tienePuntos ? "con-puntos" : "");
+
+                <div class="card-partido @claseCard">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+
+                        <div class="text-center" style="min-width: 130px;">
+                            <div>@Html.Raw(Bandera(p.PaisLocal))</div>
+                            <div class="pais-nombre mt-1">@p.PaisLocal</div>
+                        </div>
+
+                        <div class="d-flex align-items-center">
+                            @if (tienePrediccion)
+                            {
+                                <div class="marcador">@p.GolesLocalPrediccion</div>
+                                <span class="vs-texto">—</span>
+                                <div class="marcador">@p.GolesVisitantePrediccion</div>
+                            }
+                            else
+                            {
+                                <div class="text-muted" style="font-size:0.9rem; padding: 0 20px;">Sin predicción</div>
+                            }
+                        </div>
+
+                        <div class="text-center" style="min-width: 130px;">
+                            <div>@Html.Raw(Bandera(p.PaisVisitante))</div>
+                            <div class="pais-nombre mt-1">@p.PaisVisitante</div>
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-2 flex-wrap gap-1">
+                        <div class="fecha-partido">
+                            📅 @p.FechaPartido.ToString("ddd dd MMM yyyy — HH:mm", new System.Globalization.CultureInfo("es-ES"))
+                        </div>
+                        @if (p.PuntosGanados.HasValue)
+                        {
+                            if (p.PuntosGanados > 0)
+                            {
+                                <span class="badge badge-puntos bg-success">+@p.PuntosGanados pts ✓</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-puntos bg-secondary">0 pts</span>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
+
+    <div class="text-center my-5">
+        <a asp-controller="Quiniela" asp-action="RealizarQuiniela"
+           class="btn text-white fw-bold px-5 py-2"
+           style="background-color: #781717; border-radius: 10px; font-size: 1rem;">
+            ✏️ Editar mi Quiniela
+        </a>
+    </div>
+
+</div>
+
+<script>
+    function mostrarGrupo(grupo, boton) {
+        document.querySelectorAll('.seccion-grupo').forEach(s => s.classList.remove('activa'));
+        document.querySelectorAll('.tab-grupo').forEach(b => b.classList.remove('activo'));
+        document.getElementById('grupo-' + grupo).classList.add('activa');
+        boton.classList.add('activo');
+    }
+</script>
