@@ -149,9 +149,6 @@
 </style>
 
 
-<!-- ================================================== -->
-<!--         SECCIÓN: GRUPOS DEL MUNDIAL 2026           -->
-<!-- ================================================== -->
 <div class="seccion-full reveal">
 
     <div style="width: auto; height: 4px; background: linear-gradient(90deg, #781717, #FFD700, #781717); margin: 0 auto 50px;"></div>
@@ -218,12 +215,10 @@
                          onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 16px 40px rgba(120,23,23,0.25)'"
                          onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
 
-                        <!-- Cabecera -->
                         <div style="background: linear-gradient(135deg, #781717, #a01f1f); padding: 14px 20px;">
                             <span class="fuente-titulo" style="color: white; font-size: 1.1rem; font-weight: 800; letter-spacing: 2px;">@g.Nombre</span>
                         </div>
 
-                        <!-- Selecciones -->
                         <div style="padding: 8px 0;">
                             @foreach (var s in g.Selecciones)
                             {
@@ -259,9 +254,6 @@
 </div>
 
 
-<!-- ================================================== -->
-<!--              ENCABEZADO QUINIELA                   -->
-<!-- ================================================== -->
 <div class="quiniela-header">
     <h1 class="fuente-titulo" style="font-size: 2.5rem; letter-spacing: 2px;">REALIZAR QUINIELA</h1>
     <p style="opacity: 0.85; font-size: 1.1rem;">Ingresa tu predicción para cada partido de la fase de grupos</p>
@@ -273,10 +265,9 @@
 
 <div class="container" style="max-width: 850px;">
 
-    <form asp-controller="Quiniela" asp-action="GuardarQuiniela" method="post">
+    <form asp-controller="Quiniela" asp-action="GuardarQuiniela" method="post" id="formQuiniela">
         @Html.AntiForgeryToken()
 
-        <!-- Tabs de grupos -->
         <div class="d-flex flex-wrap gap-2 justify-content-center mb-4">
             @foreach (var grupo in Model.Keys)
             {
@@ -288,7 +279,6 @@
             }
         </div>
 
-        <!-- Partidos por grupo -->
         @foreach (var grupo in Model)
         {
             <div id="grupo-@grupo.Key" class="seccion-grupo @(grupo.Key == Model.Keys.First() ? "activa" : "")">
@@ -300,30 +290,25 @@
                     <div class="card-partido">
                         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
 
-                            <!-- País Local -->
                             <div class="text-center" style="min-width: 140px;">
                                 <div class="bandera">@Html.Raw(Bandera(partido.PaisLocal))</div>
                                 <div class="pais-nombre">@partido.PaisLocal</div>
                             </div>
 
-                            <!-- Inputs de goles -->
                             <div class="d-flex align-items-center gap-2">
                                 <input type="number"
                                        name="local_@partido.IdPartido"
                                        class="input-goles"
                                        min="0" max="20"
-                                       placeholder="0"
-                                       required />
+                                       placeholder="0" />
                                 <span class="vs-texto">VS</span>
                                 <input type="number"
                                        name="visitante_@partido.IdPartido"
                                        class="input-goles"
                                        min="0" max="20"
-                                       placeholder="0"
-                                       required />
+                                       placeholder="0" />
                             </div>
 
-                            <!-- País Visitante -->
                             <div class="text-center" style="min-width: 140px;">
                                 <div class="bandera">@Html.Raw(Bandera(partido.PaisVisitante))</div>
                                 <div class="pais-nombre">@partido.PaisVisitante</div>
@@ -331,7 +316,6 @@
 
                         </div>
 
-                        <!-- Fecha -->
                         <div class="fecha-partido text-center">
                             📅 @partido.FechaPartido.ToString("dddd, dd 'de' MMMM 'de' yyyy — HH:mm", new System.Globalization.CultureInfo("es-ES"))
                         </div>
@@ -345,9 +329,6 @@
                         <button type="submit" class="btn-enviar">
                             🏆 Enviar Quiniela Completa
                         </button>
-                        <p class="text-muted mt-3" style="font-size: 0.85rem;">
-                            Puedes volver a enviar para actualizar tus predicciones antes de que inicie cada partido.
-                        </p>
                     </div>
                 }
 
@@ -361,7 +342,55 @@
     function mostrarGrupo(grupo, boton) {
         document.querySelectorAll('.seccion-grupo').forEach(s => s.classList.remove('activa'));
         document.querySelectorAll('.tab-grupo').forEach(b => b.classList.remove('activo'));
-        document.getElementById('grupo-' + grupo).classList.add('activa');
-        boton.classList.add('activo');
+
+        const seccion = document.getElementById('grupo-' + grupo);
+        if(seccion) seccion.classList.add('activa');
+
+        if(boton) {
+            boton.classList.add('activo');
+        } else {
+            const botones = document.querySelectorAll('.tab-grupo');
+            botones.forEach(b => {
+                if(b.textContent.trim().includes("GRUPO " + grupo)) {
+                    b.classList.add('activo');
+                }
+            });
+        }
     }
+
+    function validarFormulario(event) {
+        const inputs = document.querySelectorAll('.input-goles');
+        let formularioValido = true;
+        let primerInputVacio = null;
+
+        for (let input of inputs) {
+            if (input.value.trim() === '') {
+                formularioValido = false;
+                primerInputVacio = input;
+                break;
+            }
+        }
+
+        if (!formularioValido) {
+            event.preventDefault();
+            alert('Por favor, llene todos los campos antes de enviar la quiniela.');
+
+            const seccionGrupo = primerInputVacio.closest('.seccion-grupo');
+            if (seccionGrupo) {
+                const grupoLetra = seccionGrupo.id.replace('grupo-', '');
+                mostrarGrupo(grupoLetra, null);
+            }
+
+            primerInputVacio.focus();
+            return false;
+        }
+        return true;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const formulario = document.getElementById('formQuiniela');
+        if(formulario) {
+            formulario.addEventListener('submit', validarFormulario);
+        }
+    });
 </script>
