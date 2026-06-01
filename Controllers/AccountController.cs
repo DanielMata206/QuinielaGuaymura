@@ -21,7 +21,7 @@ namespace PresentacionQuinielaGuaymura.Controllers
 
             string query = @"SELECT ID_Usuario, Nombre, Apellido 
                              FROM USUARIOS 
-                             WHERE Correo = @correo AND Contraseña = @contrasena";
+                            WHERE Correo = @correo AND Contrasena = @contrasena";
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
@@ -69,7 +69,7 @@ namespace PresentacionQuinielaGuaymura.Controllers
             string connectionString = _configuration.GetConnectionString("ConexionQuiniela");
 
             string queryVerificar = "SELECT COUNT(*) FROM USUARIOS WHERE Correo = @correo";
-            string queryInsertar = @"INSERT INTO USUARIOS (Nombre, Apellido, Correo, Contraseña, puntos_totales) 
+            string queryInsertar = @"INSERT INTO USUARIOS (Nombre, Apellido, Correo, Contrasena, puntos_totales) 
                                       VALUES (@nombre, @apellido, @correo, @contrasena, 0)";
             try
             {

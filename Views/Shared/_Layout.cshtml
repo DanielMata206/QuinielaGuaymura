@@ -201,37 +201,27 @@
     <div class="modal fade" id="modalLogin" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
             <div class="modal-content border-0" style="border-radius: 15px; overflow: hidden;">
-
-                <!-- Encabezado -->
                 <div class="modal-header text-white border-0 pb-1" style="background-color: #781717;">
                     <h5 class="modal-title fuente-titulo w-100 text-center" style="font-size: 1.5rem; letter-spacing: 1px;">
                         Iniciar Sesión
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-
-                <!-- Cuerpo -->
                 <div class="modal-body px-4 py-4">
                     <form asp-controller="Account" asp-action="Login" method="post">
                         @Html.AntiForgeryToken()
-
-                        <!-- Campo: Usuario -->
                         <div class="mb-3">
-                            <label class="form-label fw-bold" style="color: #781717;">Usuario</label>
-                            <input type="text" name="NombreUsuario" class="form-control"
-                                   placeholder="Ingresa tu usuario" required
+                            <label class="form-label fw-bold" style="color: #781717;">Correo</label>
+                            <input type="email" name="Correo" class="form-control"
+                                   placeholder="Ingresa tu correo" required
                                    style="border: 2px solid #ddd; border-radius: 8px; padding: 10px 14px;">
                         </div>
-
-                        <!-- Campo: Contraseña -->
                         <div class="mb-4">
                             <label class="form-label fw-bold" style="color: #781717;">Contraseña</label>
                             <input type="password" name="Contrasena" class="form-control"
                                    placeholder="Ingresa tu contraseña" required
                                    style="border: 2px solid #ddd; border-radius: 8px; padding: 10px 14px;">
                         </div>
-
-                        <!-- Botón enviar -->
                         <div class="d-grid">
                             <button type="submit" class="btn text-white fw-bold py-2"
                                     style="background-color: #781717; border-radius: 8px; font-size: 1.05rem;">
@@ -239,19 +229,16 @@
                             </button>
                         </div>
                     </form>
-
-                    <!-- Enlace a registro -->
                     <div class="text-center mt-3">
                         <small class="text-muted">
-                            <a href="#" class="fw-bold"
-                               style="color: #781717; text-decoration: none;"
+                            ¿No tienes cuenta?
+                            <a href="#" class="fw-bold" style="color: #781717; text-decoration: none;"
                                onclick="cambiarModal('modalLogin', 'modalRegistro')">
                                 Regístrate aquí
                             </a>
                         </small>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -259,39 +246,41 @@
 
     <!-- ── Modal: Registrarse ── -->
     <div class="modal fade" id="modalRegistro" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 420px;">
             <div class="modal-content border-0" style="border-radius: 15px; overflow: hidden;">
-
-                <!-- Encabezado -->
                 <div class="modal-header text-white border-0 pb-1" style="background-color: #781717;">
                     <h5 class="modal-title fuente-titulo w-100 text-center" style="font-size: 1.5rem; letter-spacing: 1px;">
                         Registrarse
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-
-                <!-- Cuerpo -->
                 <div class="modal-body px-4 py-4">
                     <form asp-controller="Account" asp-action="Register" method="post">
                         @Html.AntiForgeryToken()
-
-                        <!-- Campo: Usuario -->
                         <div class="mb-3">
-                            <label class="form-label fw-bold" style="color: #781717;">Usuario</label>
-                            <input type="text" name="NombreUsuario" class="form-control"
-                                   placeholder="Elige un nombre de usuario" required
+                            <label class="form-label fw-bold" style="color: #781717;">Nombre</label>
+                            <input type="text" name="Nombre" class="form-control"
+                                   placeholder="Ingresa tu nombre" required
                                    style="border: 2px solid #ddd; border-radius: 8px; padding: 10px 14px;">
                         </div>
-
-                        <!-- Campo: Contraseña -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" style="color: #781717;">Apellido</label>
+                            <input type="text" name="Apellido" class="form-control"
+                                   placeholder="Ingresa tu apellido" required
+                                   style="border: 2px solid #ddd; border-radius: 8px; padding: 10px 14px;">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" style="color: #781717;">Correo</label>
+                            <input type="email" name="Correo" class="form-control"
+                                   placeholder="Ingresa tu correo" required
+                                   style="border: 2px solid #ddd; border-radius: 8px; padding: 10px 14px;">
+                        </div>
                         <div class="mb-4">
                             <label class="form-label fw-bold" style="color: #781717;">Contraseña</label>
                             <input type="password" name="Contrasena" class="form-control"
                                    placeholder="Elige una contraseña" required
                                    style="border: 2px solid #ddd; border-radius: 8px; padding: 10px 14px;">
                         </div>
-
-                        <!-- Botón enviar -->
                         <div class="d-grid">
                             <button type="submit" class="btn text-white fw-bold py-2"
                                     style="background-color: #781717; border-radius: 8px; font-size: 1.05rem;">
@@ -299,20 +288,16 @@
                             </button>
                         </div>
                     </form>
-
-                    <!-- Enlace a login -->
                     <div class="text-center mt-3">
                         <small class="text-muted">
                             ¿Ya tienes cuenta?
-                            <a href="#" class="fw-bold"
-                               style="color: #781717; text-decoration: none;"
+                            <a href="#" class="fw-bold" style="color: #781717; text-decoration: none;"
                                onclick="cambiarModal('modalRegistro', 'modalLogin')">
                                 Inicia sesión aquí
                             </a>
                         </small>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

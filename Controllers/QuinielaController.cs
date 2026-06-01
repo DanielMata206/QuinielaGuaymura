@@ -141,13 +141,9 @@ namespace QuinielaGuaymura.Controllers
                     connection.Open();
 
                     // Obtenemos el ID del usuario activo
-                    int idUsuario = 0;
-                    using (SqlCommand cmdUser = new SqlCommand(
-                        "SELECT ID_Usuario FROM USUARIOS WHERE Usuario = @u", connection))
-                    {
-                        cmdUser.Parameters.AddWithValue("@u", usuarioActivo);
-                        idUsuario = (int)cmdUser.ExecuteScalar();
-                    }
+                    int? idUsuario = HttpContext.Session.GetInt32("IDUsuario");
+                    if (idUsuario == null)
+                        return RedirectToAction("Index", "Home");
 
                     // Recorremos cada campo del form que empiece con "local_"
                     foreach (string key in form.Keys)
