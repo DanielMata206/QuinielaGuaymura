@@ -27,14 +27,14 @@ namespace QuinielaGuaymura.Controllers
 
             // 2. Consulta SQL con tus tablas reales para calcular posiciones y aciertos
             string query = @"
-                SELECT 
-                   LTRIM(RTRIM(u.Nombre)) + ' ' + LTRIM(RTRIM(u.Apellido)) AS Usuario, 
-                    u.puntos_totales,
-                    COUNT(CASE WHEN p.Puntos_Ganados > 0 THEN 1 END) AS PartidosAcertados
-                FROM USUARIOS u
-                LEFT JOIN PREDICCIONES p ON u.ID_Usuario = p.ID_Usuario
-                GROUP BY u.ID_Usuario, u.Usuario, u.puntos_totales
-                ORDER BY u.puntos_totales DESC";
+               SELECT 
+    LTRIM(RTRIM(u.Nombre)) + ' ' + LTRIM(RTRIM(u.Apellido)) AS Usuario, 
+    u.puntos_totales,
+    COUNT(CASE WHEN p.Puntos_Ganados > 0 THEN 1 END) AS PartidosAcertados
+FROM USUARIOS u
+LEFT JOIN PREDICCIONES p ON u.ID_Usuario = p.ID_Usuario
+GROUP BY u.ID_Usuario, u.Nombre, u.Apellido, u.puntos_totales
+ORDER BY u.puntos_totales DESC";
 
             try
             {
