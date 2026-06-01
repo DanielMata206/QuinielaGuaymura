@@ -9,15 +9,18 @@
 
 <style>
     @@keyframes popupEfecto {
-        from {
-            opacity: 0;
-            transform: scale(0.95) translateY(20px);
-        }
+        from
 
-        to {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
+    {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
     }
 
     .tarjeta-movimiento {
@@ -26,24 +29,27 @@
     }
 
     @@keyframes pulsoSutil {
-        0% {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transform: translateY(0);
-            border-left-width: 5px;
-        }
+        0%
 
-        50% {
-            box-shadow: 0 12px 28px rgba(120,23,23,0.3);
-            transform: translateY(-8px);
-            border-left-color: #ffc107 !important;
-            border-left-width: 9px;
-        }
+    {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        transform: translateY(0);
+        border-left-width: 5px;
+    }
 
-        100% {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transform: translateY(0);
-            border-left-width: 5px;
-        }
+    50% {
+        box-shadow: 0 12px 28px rgba(120,23,23,0.3);
+        transform: translateY(-8px);
+        border-left-color: #ffc107 !important;
+        border-left-width: 9px;
+    }
+
+    100% {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        transform: translateY(0);
+        border-left-width: 5px;
+    }
+
     }
 
     .animacion-datos {
@@ -51,15 +57,18 @@
     }
 
     @@keyframes aparecerPodio {
-        from {
-            transform: translateY(50px);
-            opacity: 0;
-        }
+        from
 
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
+    {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
     }
 
     .columna-podio {
@@ -79,20 +88,23 @@
     }
 
     @@keyframes oro-pulso {
-        0% {
-            transform: scale(1);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-        }
+        0%
 
-        50% {
-            transform: scale(1.1);
-            box-shadow: 0 12px 24px rgba(255,215,0,0.6);
-        }
+    {
+        transform: scale(1);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
 
-        100% {
-            transform: scale(1);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-        }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 12px 24px rgba(255,215,0,0.6);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+
     }
 
     .animacion-oro {
@@ -100,21 +112,24 @@
     }
 
     @@keyframes medalla-balanceo {
-        0% {
-            transform: rotate(0deg);
-        }
+        0%
 
-        25% {
-            transform: rotate(4deg);
-        }
+    {
+        transform: rotate(0deg);
+    }
 
-        75% {
-            transform: rotate(-4deg);
-        }
+    25% {
+        transform: rotate(4deg);
+    }
 
-        100% {
-            transform: rotate(0deg);
-        }
+    75% {
+        transform: rotate(-4deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+
     }
 
     .animacion-lateral {
@@ -123,13 +138,16 @@
     }
 
     @@keyframes rotarBalon {
-        from {
-            transform: rotate(0deg);
-        }
+        from
 
-        to {
-            transform: rotate(360deg);
-        }
+    {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
     }
 
     .balon-giratorio {
@@ -190,13 +208,16 @@
         }
 
     @@keyframes rotar-fondo {
-        from {
-            transform: rotate(0deg);
-        }
+        from
 
-        to {
-            transform: rotate(360deg);
-        }
+    {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
     }
 
     .hero-quiniela h2 {
@@ -252,10 +273,9 @@
 
 
 <!-- ================================================== -->
-<!--         🏆 HERO — REALIZAR QUINIELA (PRIMERO)      -->
+<!--         🏆 HERO — REALIZAR QUINIELA (MODIFICADO)   -->
 <!-- ================================================== -->
 <div class="seccion-full hero-quiniela">
-
 
     <p style="color: #FFD700; font-size: 0.9rem; letter-spacing: 5px; text-transform: uppercase; font-weight: 700; position: relative; z-index:1;">
         FIFA WORLD CUP 2026
@@ -264,29 +284,46 @@
     <p class="mt-2 mb-4">Predice los resultados de la fase de grupos y compite por el premio mayor</p>
 
     <div class="d-flex flex-wrap gap-3 justify-content-center" style="position: relative; z-index:1;">
+
         @if (Context.Session.GetString("UsuarioActivo") != null)
         {
-            <a asp-controller="Quiniela" asp-action="RealizarQuiniela" class="btn-hero">
-                Realizar Quiniela
-            </a>
+            @if (ViewBag.YaHizoQuiniela == true)
+            {
+                <!-- CASO 1: El usuario ya hizo la quiniela. Botón amarillo deshabilitado de forma elegante -->
+                <button class="btn-hero"
+                        style="background: linear-gradient(135deg, #a89430, #b08212); color: rgba(74,14,14,0.5) !important; box-shadow: none; cursor: not-allowed;"
+                        disabled
+                        title="Ya realizaste tu quiniela">
+                    Realizar Quiniela
+                </button>
+            }
+            else
+            {
+                <!-- CASO 2: El usuario está activo pero NO ha hecho la quiniela. Botón habilitado -->
+                <a asp-controller="Quiniela" asp-action="RealizarQuiniela" class="btn-hero">
+                    Realizar Quiniela
+                </a>
+            }
         }
         else
         {
+            <!-- CASO 3: Nadie ha iniciado sesión. El botón abre el modal de Login -->
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalLogin" class="btn-hero">
                 Realizar Quiniela
             </a>
         }
+
         <a href="#Premio" class="btn-hero" style="background: transparent; border: 3px solid #FFD700; color: white !important; box-shadow: none;">
             Ver Premio
         </a>
-      
+
     </div>
     <p class="mt-3">Recuerda haber pagado tu inscripción para realizar tu quiniela.</p>
 </div>
 
 
 <!-- ================================================== -->
-<!--         SECCIÓN PODIO                              -->
+<!--          SECCIÓN PODIO                             -->
 <!-- ================================================== -->
 <div class="seccion-full reveal" style="padding: 60px 0 50px;">
     <div style="height: 4px; background: linear-gradient(90deg, #781717, #FFD700); margin-bottom: 40px;"></div>
@@ -399,7 +436,7 @@
 
 
 <!-- ================================================== -->
-<!--         SECCIÓN PREMIO                             -->
+<!--          SECCIÓN PREMIO                            -->
 <!-- ================================================== -->
 <div id="Premio" class="seccion-full reveal mt-5" style="scroll-margin:100px;">
     <div style="position:relative;background-image:url('/img/Fondo.png');background-size:cover;background-position:center;">
@@ -422,7 +459,7 @@
 
 
 <!-- ================================================== -->
-<!--            HISTORIA + DATOS CURIOSOS               -->
+<!--             HISTORIA + DATOS CURIOSOS              -->
 <!-- ================================================== -->
 <div class="container mt-5">
     <div class="row">
@@ -457,7 +494,7 @@
 
 
 <!-- ================================================== -->
-<!--         MUNDIALES LEGENDARIOS                      -->
+<!--          MUNDIALES LEGENDARIOS                     -->
 <!-- ================================================== -->
 <div class="container">
     <div class="mb-5 px-0" style="margin-top:80px !important;padding-top:60px;border-top:3px solid rgba(120,23,23,0.18);">
@@ -474,8 +511,10 @@
                     <div class="text-center my-3 bg-dark rounded-3 overflow-hidden" style="max-height:400px;">
                         <img src="~/img/Argentina.jpg" alt="Argentina 2022" class="img-fluid w-100" style="object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1671377484481-fc1733dfba15?q=80&w=1200'" />
                     </div>
-                    <p class="fuente-lectura mt-3" style="font-size:1.1rem;line-height:1.8;">La Argentina de <strong>Lionel Messi</strong> protagonizó la mejor final de todos los tiempos ante Francia. Un 3-3 épico y penales definitivos donde el 'Dibu' Martínez se vistió de héroe.Y por fin se le cumplio 
-                        el sueño a Lionel Messi de ser campeón del mundo gracias a un plantel de jovenes y jugadores experimentados que llevaron al titulo a la Argentina de Messi con una actuacion increible en los siete partidos disputados en el mundial </p>
+                    <p class="fuente-lectura mt-3" style="font-size:1.1rem;line-height:1.8;">
+                        La Argentina de <strong>Lionel Messi</strong> protagonizó la mejor final de todos los tiempos ante Francia. Un 3-3 épico y penales definitivos donde el 'Dibu' Martínez se vistió de héroe.Y por fin se le cumplio
+                        el sueño a Lionel Messi de ser campeón del mundo gracias a un plantel de jovenes y jugadores experimentados que llevaron al titulo a la Argentina de Messi con una actuacion increible en los siete partidos disputados en el mundial
+                    </p>
                 </div>
                 <div class="tarjeta-movimiento card tarjeta-login p-4 mb-5 border-0 bg-light shadow-sm reveal">
                     <h3 class="fuente-titulo" style="color:#781717;">BRASIL 2002 (El Pentacampeón)</h3>
@@ -483,8 +522,10 @@
                     <div class="text-center my-3 bg-dark rounded-3 overflow-hidden" style="max-height:400px;">
                         <img src="~/img/brasil.jpg" alt="Brasil 2002" class="img-fluid w-100" style="object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1518063319789-7217e6706b04?q=80&w=1200'" />
                     </div>
-                    <p class="fuente-lectura mt-3" style="font-size:1.1rem;line-height:1.8;">La redención de <strong>Ronaldo Nazário</strong> en Asia. Doblete en la final ante Alemania para la quinta estrella del Pentacampeón. La ultima gran Brasil que vimos en los mundiales fue la del 2002
-                        con un futbol feliz como siempre los caracteriza que es el "Jogo bonito" con un Rivaldo impresionante Kaká que venia despuntando como estrella y el joven Ronaldinho que venia a impresionar al mundo con sus regates.</p>
+                    <p class="fuente-lectura mt-3" style="font-size:1.1rem;line-height:1.8;">
+                        La redención de <strong>Ronaldo Nazário</strong> en Asia. Doblete en la final ante Alemania para la quinta estrella del Pentacampeón. La ultima gran Brasil que vimos en los mundiales fue la del 2002
+                        con un futbol feliz como siempre los caracteriza que es el "Jogo bonito" con un Rivaldo impresionante Kaká que venia despuntando como estrella y el joven Ronaldinho que venia a impresionar al mundo con sus regates.
+                    </p>
                 </div>
                 <div class="tarjeta-movimiento card tarjeta-login p-4 mb-5 border-0 bg-light shadow-sm reveal">
                     <h3 class="fuente-titulo" style="color:#781717;">ESPAÑA 2010 (La Era del Tiquitaca)</h3>
@@ -492,8 +533,10 @@
                     <div class="text-center my-3 bg-dark rounded-3 overflow-hidden" style="max-height:400px;">
                         <img src="~/img/espana.jpg" alt="España 2010" class="img-fluid w-100" style="object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=1200'" />
                     </div>
-                    <p class="fuente-lectura mt-3" style="font-size:1.1rem;line-height:1.8;">El <strong>"Tiquitaca"</strong> de Xavi e Iniesta conquistó el mundo. Gol de Iniesta en el 116' para la primera estrella española. Una españa que creo un estilo de juego en el futbol un estilo efectivo y de control 
-                        que a dia de hoy se sigue practicando por muchos equipos de elite una seleccion que sorprendio por el orden tanto defensivo y ofensivo que realizo durante el mundial.</p>
+                    <p class="fuente-lectura mt-3" style="font-size:1.1rem;line-height:1.8;">
+                        El <strong>"Tiquitaca"</strong> de Xavi e Iniesta conquistó el mundo. Gol de Iniesta en el 116' para la primera estrella española. Una españa que creo un estilo de juego en el futbol un estilo efectivo y de control
+                        que a dia de hoy se sigue practicando por muchos equipos de elite una seleccion que sorprendio por el orden tanto defensivo y ofensivo que realizo durante el mundial.
+                    </p>
                 </div>
                 <div class="tarjeta-movimiento card tarjeta-login p-4 mb-5 border-0 bg-light shadow-sm reveal">
                     <h3 class="fuente-titulo" style="color:#781717;">ALEMANIA 2014 (La Consagración)</h3>
@@ -501,8 +544,10 @@
                     <div class="text-center my-3 bg-dark rounded-3 overflow-hidden" style="max-height:400px;">
                         <img src="~/img/Alemania.jpg" alt="Alemania 2014" class="img-fluid w-100" style="object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1551958219-acbc608c6d77?q=80&w=1200'" />
                     </div>
-                    <p class="fuente-lectura mt-3" style="font-size:1.1rem;line-height:1.8;">Gol de <strong>Mario Götze</strong> en el 113' para la cuarta estrella alemana ante Argentina en suelo sudamericano. La seleccion Alemana dejando eliminado a Brasil 
-                        con una paliza en su estadio con un resultado que se recordara por siglos el famoso "7-1" y luego ganando la final contra la Argentina de Messi superando a las mejores selecciones de America y del mundo.</p>
+                    <p class="fuente-lectura mt-3" style="font-size:1.1rem;line-height:1.8;">
+                        Gol de <strong>Mario Götze</strong> en el 113' para la cuarta estrella alemana ante Argentina en suelo sudamericano. La seleccion Alemana dejando eliminado a Brasil
+                        con una paliza en su estadio con un resultado que se recordara por siglos el famoso "7-1" y luego ganando la final contra la Argentina de Messi superando a las mejores selecciones de America y del mundo.
+                    </p>
                 </div>
             </div>
         </div>

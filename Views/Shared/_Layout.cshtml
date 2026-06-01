@@ -55,8 +55,6 @@
             opacity: 0.9;
         }
 
-
-
     </style>
 </head>
 
@@ -72,7 +70,7 @@
         <div class="alert alert-@TempData["TipoMensaje"] alert-dismissible fade show text-center fw-bold"
              role="alert"
              style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-                        z-index: 9999; min-width: 350px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                            z-index: 9999; min-width: 350px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
             @TempData["Mensaje"]
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
@@ -99,12 +97,6 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-white fuente-menu boton-login px-3"
-                                       asp-controller="Quiniela" asp-action="VerQuiniela">
-                                        Mi Quiniela
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white fuente-menu boton-login px-3"
                                        asp-controller="Account" asp-action="Logout">
                                         Cerrar Sesión
                                     </a>
@@ -128,7 +120,7 @@
                         </ul>
                     </div>
 
-                    <!-- Menú central -->
+                    <!-- Menú central (AQUÍ SE AGREGÓ LA LÓGICA DE LOS BOTONES DE JUEGO) -->
                     <div class="d-flex justify-content-center my-2">
                         <ul class="navbar-nav flex-row gap-4">
                             <li class="nav-item">
@@ -136,6 +128,30 @@
                                    href="/#tabla-posiciones">Ver Tabla</a>
                             </li>
 
+                            @if (Context.Session.GetString("UsuarioActivo") != null)
+                            {
+                                @if (ViewBag.YaHizoQuiniela == true)
+                                {
+                                    <!-- Ya hizo quiniela: Mi Quiniela ACTIVO -->
+                                    <li class="nav-item">
+                                        <a class="nav-link text-white enlace-menu-central px-2 text-nowrap"
+                                           asp-controller="Quiniela" asp-action="VerQuiniela">
+                                            Mi Quiniela
+                                        </a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <!-- No ha hecho quiniela: Mi Quiniela DESHABILITADO -->
+                                    <li class="nav-item">
+                                        <a class="nav-link enlace-menu-central px-2 text-nowrap"
+                                           style="color: rgba(255,255,255,0.35) !important; cursor: not-allowed;"
+                                           title="Aún no has realizado tu quiniela">
+                                            Mi Quiniela
+                                        </a>
+                                    </li>
+                                }
+                            }
                         </ul>
                     </div>
 
@@ -311,9 +327,6 @@
             </div>
         </div>
     </div>
-
-
-
 
 </body>
 </html>

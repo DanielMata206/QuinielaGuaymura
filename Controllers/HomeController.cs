@@ -28,13 +28,13 @@ namespace QuinielaGuaymura.Controllers
             // 2. Consulta SQL con tus tablas reales para calcular posiciones y aciertos
             string query = @"
                SELECT 
-    LTRIM(RTRIM(u.Nombre)) + ' ' + LTRIM(RTRIM(u.Apellido)) AS Usuario, 
-    u.puntos_totales,
-    COUNT(CASE WHEN p.Puntos_Ganados > 0 THEN 1 END) AS PartidosAcertados
-FROM USUARIOS u
-LEFT JOIN PREDICCIONES p ON u.ID_Usuario = p.ID_Usuario
-GROUP BY u.ID_Usuario, u.Nombre, u.Apellido, u.puntos_totales
-ORDER BY u.puntos_totales DESC";
+                   LTRIM(RTRIM(u.Nombre)) + ' ' + LTRIM(RTRIM(u.Apellido)) AS Usuario, 
+                   u.puntos_totales,
+                   COUNT(CASE WHEN p.Puntos_Ganados > 0 THEN 1 END) AS PartidosAcertados
+                   FROM USUARIOS u
+                   LEFT JOIN PREDICCIONES p ON u.ID_Usuario = p.ID_Usuario
+                   GROUP BY u.ID_Usuario, u.Nombre, u.Apellido, u.puntos_totales
+                   ORDER BY u.puntos_totales DESC";
 
             try
             {
@@ -66,6 +66,26 @@ ORDER BY u.puntos_totales DESC";
                 // Registramos el error en la consola interna por si necesitas revisarlo
                 _logger.LogError("Error al conectar con la base de datos de Somee: " + ex.Message);
                 ViewBag.ErrorBD = "Ocurrió un inconveniente al cargar el ranking.";
+            }
+
+            // Verificar si el usuario activo ya tiene quiniela
+            int? idUsuario = HttpContext.Session.GetInt32("IDUsuario");
+            if (idUsuario != null)
+            {
+                string connStr = _configuration.GetConnectionString("ConexionQuiniela");
+                using (SqlConnection conn = new SqlConnection(connStr))
+                using (SqlCommand cmd = new SqlCommand(
+                    "SELECT COUNT(*) FROM PREDICCIONES WHERE ID_Usuario = @id", conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", idUsuario.Value);
+                    conn.Open();
+                    int count = (int)cmd.ExecuteScalar();
+                    ViewBag.YaHizoQuiniela = count > 0;
+                }
+            }
+            else
+            {
+                ViewBag.YaHizoQuiniela = false;
             }
 
             // 3. Pasamos la lista cargada de la BD a tu vista Index.cshtml
