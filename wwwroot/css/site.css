@@ -160,3 +160,204 @@ body {
         color: #FFD700 !important;
     }
 
+/* ══════════════════════════════════
+   RESPONSIVE GENERAL
+══════════════════════════════════ */
+
+/* Hero */
+@media (max-width: 768px) {
+    .hero-quiniela h2 {
+        font-size: 2rem !important;
+        letter-spacing: 1px;
+    }
+
+    .hero-quiniela {
+        padding: 50px 15px 40px;
+    }
+
+    .btn-hero {
+        font-size: 1rem;
+        padding: 12px 30px;
+    }
+}
+
+/* Podio - primer lugar centrado y más grande */
+@media (max-width: 768px) {
+    .columna-podio.oro {
+        order: -1; /* Primer lugar arriba en móvil */
+    }
+
+    .card[style*="transform:scale(1.1)"],
+    .card[style*="transform: scale(1.1)"],
+    .card[style*="transform:scale(1.05)"],
+    .card[style*="transform: scale(1.05)"] {
+        transform: scale(1) !important;
+    }
+}
+
+/* Tabla de posiciones */
+@media (max-width: 576px) {
+    .table thead th:nth-child(3) {
+        display: none;
+    }
+
+    .table tbody td:nth-child(3) {
+        display: none;
+    }
+
+    .table th, .table td {
+        font-size: 0.82rem;
+        padding: 8px 6px;
+    }
+}
+
+/* Quiniela - card de partido */
+@media (max-width: 576px) {
+    .card-partido {
+        padding: 14px 10px;
+    }
+
+        .card-partido .d-flex {
+            flex-direction: column;
+            align-items: center !important;
+            gap: 12px !important;
+        }
+
+    .pais-nombre {
+        font-size: 0.95rem;
+    }
+
+    .input-goles {
+        width: 55px;
+        font-size: 1.1rem;
+    }
+}
+
+/* Tabs de grupos - scroll horizontal en móvil */
+@media (max-width: 768px) {
+    .d-flex.flex-wrap.gap-2.justify-content-center.mb-4 {
+        flex-wrap: nowrap !important;
+        overflow-x: auto;
+        justify-content: flex-start !important;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+        .d-flex.flex-wrap.gap-2.justify-content-center.mb-4::-webkit-scrollbar {
+            display: none;
+        }
+
+    .tab-grupo {
+        flex-shrink: 0;
+        font-size: 0.8rem;
+        padding: 5px 12px;
+        white-space: nowrap;
+    }
+}
+
+/* Cards de grupos del mundial */
+@media (max-width: 576px) {
+    .col-xl-3.col-lg-4.col-md-6.col-12 {
+        padding: 0 10px;
+    }
+}
+
+/* Historia y datos curiosos */
+@media (max-width: 768px) {
+    .fuente-titulo[style*="2.2rem"] {
+        font-size: 1.6rem !important;
+    }
+
+    .fuente-titulo[style*="2.8rem"] {
+        font-size: 1.8rem !important;
+    }
+
+    .tarjeta-movimiento {
+        padding: 16px !important;
+    }
+}
+
+/* Premio imagen */
+@media (max-width: 576px) {
+    .balon-giratorio {
+        width: 180px !important;
+        height: 180px !important;
+    }
+}
+
+/* Sección full - evitar overflow horizontal */
+.seccion-full {
+    overflow-x: hidden;
+}
+
+/* ══════════════════════════════════
+   HEADER RESPONSIVE
+══════════════════════════════════ */
+@media (max-width: 768px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
+    .titulo-gigante {
+        font-size: 1.8rem !important;
+        letter-spacing: 1px;
+    }
+
+    .subtitulo-quiniela {
+        font-size: 0.95rem !important;
+    }
+
+    .seccion-bienvenida {
+        padding-top: 20px !important;
+        padding-bottom: 30px !important;
+        margin-top: 20px !important;
+    }
+
+        /* Logo + Título apilados verticalmente */
+        .seccion-bienvenida .row {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+        }
+
+        .seccion-bienvenida .col-2,
+        .seccion-bienvenida .col-8 {
+            width: 100% !important;
+            max-width: 100% !important;
+            flex: 0 0 100% !important;
+            padding: 0 !important;
+            text-align: center !important;
+        }
+
+        .seccion-bienvenida img {
+            max-width: 70px !important;
+            margin-bottom: 8px;
+        }
+
+    /* Botones login */
+    .position-absolute.end-0.top-0 {
+        position: relative !important;
+        display: flex !important;
+        justify-content: center !important;
+        margin: 0 !important;
+        padding: 8px 0 !important;
+    }
+
+    .boton-login {
+        font-size: 0.78rem !important;
+        padding: 5px 10px !important;
+        margin-right: 4px !important;
+    }
+
+    .fuente-menu {
+        font-size: 0.82rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .titulo-gigante {
+        font-size: 1.3rem !important;
+    }
+}
