@@ -9,18 +9,15 @@
 
 <style>
     @@keyframes popupEfecto {
-        from
+        from {
+            opacity: 0;
+            transform: scale(0.95) translateY(20px);
+        }
 
-    {
-        opacity: 0;
-        transform: scale(0.95) translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
     }
 
     .tarjeta-movimiento {
@@ -29,27 +26,24 @@
     }
 
     @@keyframes pulsoSutil {
-        0%
+        0% {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transform: translateY(0);
+            border-left-width: 5px;
+        }
 
-    {
-        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        transform: translateY(0);
-        border-left-width: 5px;
-    }
+        50% {
+            box-shadow: 0 12px 28px rgba(120,23,23,0.3);
+            transform: translateY(-8px);
+            border-left-color: #ffc107 !important;
+            border-left-width: 9px;
+        }
 
-    50% {
-        box-shadow: 0 12px 28px rgba(120,23,23,0.3);
-        transform: translateY(-8px);
-        border-left-color: #ffc107 !important;
-        border-left-width: 9px;
-    }
-
-    100% {
-        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        transform: translateY(0);
-        border-left-width: 5px;
-    }
-
+        100% {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transform: translateY(0);
+            border-left-width: 5px;
+        }
     }
 
     .animacion-datos {
@@ -57,18 +51,15 @@
     }
 
     @@keyframes aparecerPodio {
-        from
+        from {
+            transform: translateY(50px);
+            opacity: 0;
+        }
 
-    {
-        transform: translateY(50px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
     }
 
     .columna-podio {
@@ -88,23 +79,20 @@
     }
 
     @@keyframes oro-pulso {
-        0%
+        0% {
+            transform: scale(1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
 
-    {
-        transform: scale(1);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    }
+        50% {
+            transform: scale(1.1);
+            box-shadow: 0 12px 24px rgba(255,215,0,0.6);
+        }
 
-    50% {
-        transform: scale(1.1);
-        box-shadow: 0 12px 24px rgba(255,215,0,0.6);
-    }
-
-    100% {
-        transform: scale(1);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    }
-
+        100% {
+            transform: scale(1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
     }
 
     .animacion-oro {
@@ -112,24 +100,21 @@
     }
 
     @@keyframes medalla-balanceo {
-        0%
+        0% {
+            transform: rotate(0deg);
+        }
 
-    {
-        transform: rotate(0deg);
-    }
+        25% {
+            transform: rotate(4deg);
+        }
 
-    25% {
-        transform: rotate(4deg);
-    }
+        75% {
+            transform: rotate(-4deg);
+        }
 
-    75% {
-        transform: rotate(-4deg);
-    }
-
-    100% {
-        transform: rotate(0deg);
-    }
-
+        100% {
+            transform: rotate(0deg);
+        }
     }
 
     .animacion-lateral {
@@ -138,16 +123,13 @@
     }
 
     @@keyframes rotarBalon {
-        from
+        from {
+            transform: rotate(0deg);
+        }
 
-    {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-
+        to {
+            transform: rotate(360deg);
+        }
     }
 
     .balon-giratorio {
@@ -208,16 +190,13 @@
         }
 
     @@keyframes rotar-fondo {
-        from
+        from {
+            transform: rotate(0deg);
+        }
 
-    {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-
+        to {
+            transform: rotate(360deg);
+        }
     }
 
     .hero-quiniela h2 {
@@ -318,7 +297,17 @@
         </a>
 
     </div>
-    <p class="mt-3">Recuerda haber pagado tu inscripción para realizar tu quiniela.</p>
+
+    <!-- ✅ TEXTO ACTUALIZADO CON LINK DE WHATSAPP -->
+    <p class="mt-3">
+        Recuerda pagar tu inscripción para participar oficialmente.
+        <a href="https://wa.me/50493312364"
+           target="_blank"
+           style="color:#FFD700; font-weight:bold; text-decoration:none;">
+            📲 Comunícate con Andrés Funes al 9331-2364
+        </a>
+    </p>
+
 </div>
 
 
