@@ -279,17 +279,23 @@
             else
             {
                 <!-- CASO 2: El usuario está activo pero NO ha hecho la quiniela. Botón habilitado -->
-                <a asp-controller="Quiniela" asp-action="RealizarQuiniela" class="btn-hero">
+                <button class="btn-hero"
+                        style="background: linear-gradient(135deg, #a89430, #b08212); color: rgba(74,14,14,0.5) !important; box-shadow: none; cursor: not-allowed;"
+                        disabled
+                        title="El tiempo para realizar la quiniela ha cerrado">
                     Realizar Quiniela
-                </a>
+                </button>
             }
         }
         else
         {
             <!-- CASO 3: Nadie ha iniciado sesión. El botón abre el modal de Login -->
-            <a href="#" data-bs-toggle="modal" data-bs-target="#modalLogin" class="btn-hero">
+            <button class="btn-hero"
+                    style="background: linear-gradient(135deg, #a89430, #b08212); color: rgba(74,14,14,0.5) !important; box-shadow: none; cursor: not-allowed;"
+                    disabled
+                    title="El tiempo para realizar la quiniela ha cerrado">
                 Realizar Quiniela
-            </a>
+            </button>
         }
 
         <a href="#Premio" class="btn-hero" style="background: transparent; border: 3px solid #FFD700; color: white !important; box-shadow: none;">
